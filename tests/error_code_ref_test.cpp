@@ -1,7 +1,13 @@
+///
+/// \file   tests/error_code_ref_test.h
+/// \author Sergey Tararay
+/// \date   04.08.2013
+///
+/// FILE DESCRIPTION
+///
 
 #include <boost/test/unit_test.hpp>
-
-#include <easy/error_code.h>
+#include <easy/error_code_ref.h>
 
 namespace {
   enum class user_error;
@@ -32,7 +38,7 @@ namespace {
     const char * name() const final BOOST_SYSTEM_NOEXCEPT {
       return "user_error";
     }
-    std::string  message( int ev ) const final {
+    std::string message( int ev ) const final {
       return "test";
     }
   };
@@ -44,7 +50,7 @@ namespace {
 
 
 
-  
+
   void test_func1(easy::error_code_ref ec = nullptr) {
     ec = user_error::invalid; // will throw if ec is null
   }
@@ -57,7 +63,7 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(ErrorCode)
 {
-  boost::system::error_code _ec = user_error::invalid;
+  easy::error_code _ec = user_error::invalid;
   test_func1(_ec);
   bool res = _ec == user_error::invalid;
   BOOST_CHECK(res);

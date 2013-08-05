@@ -1,24 +1,34 @@
+/*!
+* \file   easy/error_code_ref.h
+* \author Sergey Tararay
+* \date   04.08.2013
+*
+* FILE DESCRIPTION
+*/
+#ifndef EASY_ERROR_CODE_REF_H_INCLUDED
+#define EASY_ERROR_CODE_REF_H_INCLUDED
 
-#ifndef EASY_ERROR_CODE_H_INCLUDED
-#define EASY_ERROR_CODE_H_INCLUDED
+// Dependencies
 
 #include <easy/config.h>
-
 
 #ifdef EASY_OS_WINDOWS
 #  include <Windows.h>
 #endif
 
-
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
 
 #include <easy/unspecified_bool.h>
+#include <easy/detail/error_code_ref_detail.h>
 
-
-
+//! macro 1
 #define ec_optional easy::error_code_ref ec = nullptr
+
+//! macro 2
 #define ec_arg      easy::error_code_ref ec
+
+//! macro 3
 #define ec_type     easy::error_code_ref
 
 
@@ -28,63 +38,59 @@ namespace easy
   using boost::system::system_error;
   using boost::system::error_category;
 
+  /*!
+  * \class error_code_ref
+  * \headerfile error_code_ref.h <easy/error_code_ref.h>
+  * \brief error_code_ref class that is used to indicate conversion errors
+  */
   class error_code_ref
   {
-    class _code
-    {
-    public:
-      _code(error_code* ec) EASY_NOEXCEPT
-        : m_code(!ec ? m_own_code : *ec) {
-      }
-      ~_code() {
-        if (m_own_code) {
-          if (!std::uncaught_exception())
-            throw system_error(m_own_code);
-          EASY_ASSERT(!"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
-      }
-      operator error_code& () EASY_NOEXCEPT {
-        return m_code;
-      }
-      operator error_code* () EASY_NOEXCEPT {
-        return &m_code;
-      }
-    private:
-      error_code m_own_code;
-      error_code& m_code;
-    };
   private:
     error_code_ref(error_code&&);
     error_code_ref& operator=(const error_code_ref&);    
   public:
 
-    // construction
-
+    /*!
+    * Default constructor
+    */
     error_code_ref() EASY_NOEXCEPT
       : m_pcode(nullptr) {
     }
 
+    /*!
+    * Constructor which creates throwable error_code_ref
+    */
     error_code_ref(nullptr_t) EASY_NOEXCEPT
       : m_pcode(nullptr) {
     }
 
+    /*!
+    * Constructor .................
+    */
     error_code_ref(error_code& ec) EASY_NOEXCEPT
       : m_pcode(&ec) {
         clear();
     }
 
+    /*!
+    * Constructor .................
+    */
     error_code_ref(error_code* ec) EASY_NOEXCEPT
       : m_pcode(ec) {
         clear();
     }
 
+    /*!
+    * Constructor .................
+    */
     error_code_ref(const error_code_ref& ec) EASY_NOEXCEPT
       : m_pcode(ec.m_pcode) {
         clear();
     }
 
-    // assignment
-
+    //!
+    //! Assignment .................
+    //!
     error_code_ref& operator = (const error_code& ec) {
       if (!m_pcode) {
         if (ec)
@@ -95,11 +101,17 @@ namespace easy
       return *this;
     }
 
+    //!
+    //! Assignment .................
+    //!
     template<class CodeT>
     error_code_ref& operator = (const CodeT& code) {
       return (*this = error_code(code));
     }
 
+    //!
+    //! assign code 
+    //!
     void assign(int code, const error_category& cat) {
       *this = error_code(code, cat);
     }
@@ -108,7 +120,7 @@ namespace easy
       assign(code, cat);
     }
 
-    void set_system_error(unsigned code) {
+    void set_system_error(int code) {
       set(code, boost::system::system_category());
     }
 
@@ -126,8 +138,8 @@ namespace easy
     // obtaining an internal type that should be passed to boost functions 
     // and to be implicitly converted to boost::system::error_code
 
-    _code get() EASY_NOEXCEPT {
-      return _code(m_pcode);
+    detail::error_code_holder get() EASY_NOEXCEPT {
+      return detail::error_code_holder(m_pcode);
     }
 
     //
