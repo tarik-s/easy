@@ -22,16 +22,6 @@
 #include <easy/unspecified_bool.h>
 #include <easy/detail/error_code_ref_detail.h>
 
-//! macro 1
-#define ec_optional easy::error_code_ref ec = nullptr
-
-//! macro 2
-#define ec_arg      easy::error_code_ref ec
-
-//! macro 3
-#define ec_type     easy::error_code_ref
-
-
 namespace easy
 {
   using boost::system::error_code;

@@ -26,98 +26,93 @@ namespace easy
     typedef std::basic_string<char_type> string_type;
   public:
     
-    basic_c_string() EASY_NOEXCEPT
-      : m_pstr(nullptr)
-      , m_size(0) {
-    }
+    basic_c_string() EASY_NOEXCEPT { }
 
-    basic_c_string(nullptr_t) EASY_NOEXCEPT
-      : m_pstr(nullptr)
-      , m_size(0) {
-    }
+    basic_c_string(nullptr_t) EASY_NOEXCEPT { }
 
-    basic_c_string(basic_c_string && r) EASY_NOEXCEPT
-      : m_pstr(nullptr)
-      , m_size(0)
-    {
+    basic_c_string(basic_c_string && r) EASY_NOEXCEPT {
       *this = r;
     }
 
-    basic_c_string(const TChar* pstr, size_t size)
-      : m_pstr(size > 0 ? pstr : nullptr)
-      , m_size(size) {
+    basic_c_string(const char_type* pstr, size_t size)
+      : m_str(size > 0 ? pstr : nullptr, size) {
     }
 
     template<class TStr>
     basic_c_string(const TStr& str) {
       EASY_STATIC_ASSERT(
         is_stringable<typename boost::remove_cv<TStr>::type>::value,
-        "The type specified is not a stringable type"
+        "The 'TStr' is not a stringable type"
       );
       *this = this_type(make_c_string<char_type>(str));
     }
 
-    const_iterator begin() const {
-      return m_pstr;
+    const_iterator begin() const EASY_NOEXCEPT {
+      return c_str();
     }
 
-    const_iterator end() const {
-      return m_pstr + m_size;
+    const_iterator end() const EASY_NOEXCEPT {
+      return c_str() + size();
     }
 
-    const_iterator cbegin() const {
+    const_iterator cbegin() const EASY_NOEXCEPT {
       begin();
     }
 
-    const_iterator cend() const {
+    const_iterator cend() const EASY_NOEXCEPT {
       return end();
     }
 
     bool empty() const EASY_NOEXCEPT {
-      return !m_pstr || m_size == 0;
+      return !data() || size() == 0;
     }
 
     size_t size() const EASY_NOEXCEPT {
-      return m_size;
-    }
-
-    size_t length() const EASY_NOEXCEPT {
-      return m_size;
+      return m_str.size;
     }
 
     const char_type* c_str() const EASY_NOEXCEPT {
-      return m_pstr;
+      return m_str.pstr;
+    }
+
+    size_t length() const EASY_NOEXCEPT {
+      return size();
     }
 
     const char_type* data() const EASY_NOEXCEPT {
-      return m_pstr;
+      return c_str();
     }
 
     const_reference operator[] (size_t index) const {
-      return m_pstr[index];
+      return c_str()[index];
     }
 
     const_reference at(size_t index) const {
-      return m_pstr[index];
+      return c_str()[index];
     }
 
   private:
     basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {
-      m_pstr = r.m_pstr;
-      m_size = r.m_size;
+      m_str = r.m_str;
       m_holder_ptr.swap(r.m_holder_ptr);
       return *this;
     }
 
     basic_c_string(string_type && str)
       : m_holder_ptr(new string_type(std::move(str)))
-      , m_pstr(m_holder_ptr->c_str())
-      , m_size(m_holder_ptr->size()) {
+      , m_str(m_holder_ptr->c_str(), m_holder_ptr->size()) {
     }
   private:
+    struct sized_str {
+      sized_str(const char_type* pstr = nullptr, size_t size = 0) 
+        : pstr(pstr), size(size) {
+      }
+      char_type const* pstr;
+      size_type size;
+    };
+  private:
     std::unique_ptr<string_type> m_holder_ptr; // Must be at the first position
-    TChar const* m_pstr;
-    size_t m_size;    
+    sized_str m_str;
   }; 
 
 
