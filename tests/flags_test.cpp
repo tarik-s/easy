@@ -1,4 +1,6 @@
-#include <boost/test/unit_test.hpp>
+
+#include "include.h"
+
 #include <easy/flags.h>
 
 
@@ -9,17 +11,18 @@ namespace {
     read  = 0x0001,
     write = 0x0002,
   };
-  
+
+  void declare_as_flags(open_param);
 
 
 }
 
-namespace easy {
-  template<>
-  struct is_flag<open_param> 
-    : boost::true_type {
-  };
-}
+// namespace easy {
+//   template<>
+//   struct is_flag<open_param> 
+//     : boost::true_type {
+//   };
+// }
 
 BOOST_AUTO_TEST_CASE(Flags)
 {

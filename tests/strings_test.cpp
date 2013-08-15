@@ -6,8 +6,10 @@
   FILE DESCRIPTION
 */
 
-#include <boost/test/unit_test.hpp>
+#include "include.h"
+
 #include <easy/strings.h>
+#include <iostream>
 
 namespace {
 
@@ -47,7 +49,10 @@ BOOST_AUTO_TEST_CASE(Strings)
   c_string _cse = se;
 
   c_string csss(std::string("heeee"));
-  
-  
+
+  for (char c : csss) {
+    std::cout << c << '\n';
+  }
+ 
 
 }

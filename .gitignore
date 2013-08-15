@@ -24,3 +24,7 @@
 *.lastbuildstate
 *.unsuccessfulbuild
 *.user
+*.lib
+*.exe
+*.ilk
+*.cache

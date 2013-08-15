@@ -1,6 +1,6 @@
 #define BOOST_TEST_MAIN
 
-#include <boost/test/unit_test.hpp>
+#include "include.h"
 
 BOOST_AUTO_TEST_CASE(MainEasyTest)
 {

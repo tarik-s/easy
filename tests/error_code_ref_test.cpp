@@ -6,7 +6,8 @@
 /// FILE DESCRIPTION
 ///
 
-#include <boost/test/unit_test.hpp>
+#include "include.h"
+
 #include <easy/error_code_ref.h>
 
 namespace {

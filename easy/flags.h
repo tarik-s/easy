@@ -9,18 +9,28 @@
 #define EASY_FLAGS_H_INCLUDED
 
 #include <easy/config.h>
+#include <easy/detail/flags_detail.h>
 
 #include <type_traits>
 
 #include <boost/type_traits.hpp>
+#include <boost/utility/result_of.hpp>
+
+
+template<class T>
+easy::flags_detail::not_flags declare_as_flags(T);
 
 namespace easy
 {
   template<class T>
   struct is_flag 
-    : boost::false_type {
+    : boost::mpl::not_<
+      boost::is_same<
+          decltype(declare_as_flags(T()))
+        , easy::flags_detail::not_flags
+      >
+    > {
   };
-
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\easy\config.h" />
     <ClInclude Include="..\..\..\..\easy\detail\error_code_ref_detail.h" />
+    <ClInclude Include="..\..\..\..\easy\detail\flags_detail.h" />
     <ClInclude Include="..\..\..\..\easy\detail\unspecified_bool_detail.h" />
     <ClInclude Include="..\..\..\..\easy\easy.h" />
     <ClInclude Include="..\..\..\..\easy\error_code_ref.h" />
@@ -25,6 +26,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\easy\strings\detail\stringable_stock.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\strings\string_conv.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{72DBA71B-7201-437C-8E7F-46A8D1EE05ED}</ProjectGuid>
@@ -63,6 +67,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -78,6 +84,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -24,4 +24,9 @@
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\tests\include.h">
+      <Filter>main</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
