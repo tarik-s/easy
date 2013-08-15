@@ -11,3 +11,16 @@
 *.lai
 *.la
 *.a
+
+# Visual Studio Stuff
+*.sdf
+*.suo
+*.opensdf
+*.obj
+*.idb
+*.pdb
+*.log
+*.tlog
+*.lastbuildstate
+*.unsuccessfulbuild
+*.user

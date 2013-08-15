@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="easy">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="easy\detail">
+      <UniqueIdentifier>{165be093-c415-4a53-9a1a-32b8dc299878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\config">
+      <UniqueIdentifier>{aa9222bf-5467-4686-92ac-762195450af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\strings">
+      <UniqueIdentifier>{22eecf9e-ae14-42c2-bbdc-b545efff7386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\strings\detail">
+      <UniqueIdentifier>{935692f2-b12f-4cfc-80aa-52d00000a918}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\easy\config.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\easy.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\error_code_ref.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\flags.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\streams.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\strings.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\unspecified_bool.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\detail\error_code_ref_detail.h">
+      <Filter>easy\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\detail\unspecified_bool_detail.h">
+      <Filter>easy\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\strings\c_string.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\easy\strings\stringable_fwd.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\easy\strings\detail\stringable_stock.inl">
+      <Filter>easy\strings\detail</Filter>
+    </None>
+  </ItemGroup>
+</Project>

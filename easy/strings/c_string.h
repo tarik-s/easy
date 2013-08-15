@@ -34,7 +34,12 @@ namespace easy
       *this = r;
     }
 
-    basic_c_string(const char_type* pstr, size_t size)
+    basic_c_string(string_type && str)
+      : m_holder_ptr(new string_type(std::move(str)))
+      , m_str(m_holder_ptr->c_str(), m_holder_ptr->size()) {
+    }
+
+    basic_c_string(const char_type* pstr, size_t size) EASY_NOEXCEPT
       : m_str(size > 0 ? pstr : nullptr, size) {
     }
 
@@ -98,10 +103,6 @@ namespace easy
       return *this;
     }
 
-    basic_c_string(string_type && str)
-      : m_holder_ptr(new string_type(std::move(str)))
-      , m_str(m_holder_ptr->c_str(), m_holder_ptr->size()) {
-    }
   private:
     struct sized_str {
       sized_str(const char_type* pstr = nullptr, size_t size = 0) 

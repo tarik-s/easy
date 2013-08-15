@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_CASE(Strings)
 
   c_string _cse = se;
 
+  c_string csss(std::string("heeee"));
   
   
 
