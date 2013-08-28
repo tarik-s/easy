@@ -11,24 +11,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\easy\config.h" />
-    <ClInclude Include="..\..\..\..\easy\detail\error_code_ref_detail.h" />
-    <ClInclude Include="..\..\..\..\easy\detail\flags_detail.h" />
-    <ClInclude Include="..\..\..\..\easy\detail\unspecified_bool_detail.h" />
-    <ClInclude Include="..\..\..\..\easy\easy.h" />
-    <ClInclude Include="..\..\..\..\easy\error_code_ref.h" />
-    <ClInclude Include="..\..\..\..\easy\flags.h" />
-    <ClInclude Include="..\..\..\..\easy\streams.h" />
-    <ClInclude Include="..\..\..\..\easy\strings.h" />
-    <ClInclude Include="..\..\..\..\easy\strings\c_string.h" />
-    <ClInclude Include="..\..\..\..\easy\strings\stringable_fwd.h" />
-    <ClInclude Include="..\..\..\..\easy\unspecified_bool.h" />
+    <ClCompile Include="..\..\..\src\db\sqlite\sqlite.cpp" />
+    <ClCompile Include="..\..\..\src\strings\string_conv.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\easy\strings\detail\stringable_stock.inl" />
+    <None Include="..\..\..\easy\strings\detail\stringable_stock.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\strings\string_conv.cpp" />
+    <ClInclude Include="..\..\..\easy\config.h" />
+    <ClInclude Include="..\..\..\easy\db\config.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite\detail\sqlite_detail.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite\database.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite\statement.h" />
+    <ClInclude Include="..\..\..\easy\detail\error_code_ref_detail.h" />
+    <ClInclude Include="..\..\..\easy\detail\flags_detail.h" />
+    <ClInclude Include="..\..\..\easy\detail\unspecified_bool_detail.h" />
+    <ClInclude Include="..\..\..\easy\easy.h" />
+    <ClInclude Include="..\..\..\easy\error_code_ref.h" />
+    <ClInclude Include="..\..\..\easy\flags.h" />
+    <ClInclude Include="..\..\..\easy\scope.h" />
+    <ClInclude Include="..\..\..\easy\stlex\make_unique.h" />
+    <ClInclude Include="..\..\..\easy\stlex\nullptr_t.h" />
+    <ClInclude Include="..\..\..\easy\streams.h" />
+    <ClInclude Include="..\..\..\easy\strings.h" />
+    <ClInclude Include="..\..\..\easy\strings\c_string.h" />
+    <ClInclude Include="..\..\..\easy\strings\stringable_fwd.h" />
+    <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
+    <ClInclude Include="..\..\..\easy\type_traits.h" />
+    <ClInclude Include="..\..\..\easy\unspecified_bool.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{72DBA71B-7201-437C-8E7F-46A8D1EE05ED}</ProjectGuid>

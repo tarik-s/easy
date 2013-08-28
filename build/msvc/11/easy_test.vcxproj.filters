@@ -11,21 +11,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\tests\main_test.cpp">
+    <ClCompile Include="..\..\..\tests\main_test.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\tests\error_code_ref_test.cpp">
+    <ClCompile Include="..\..\..\tests\error_code_ref_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\tests\flags_test.cpp">
+    <ClCompile Include="..\..\..\tests\flags_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\tests\strings_test.cpp">
+    <ClCompile Include="..\..\..\tests\strings_test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\sqlite_test.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\SDK\sqlite\sqlite3.c">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\tests\include.h">
+    <ClInclude Include="..\..\..\tests\include.h">
       <Filter>main</Filter>
     </ClInclude>
   </ItemGroup>

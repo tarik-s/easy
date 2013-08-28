@@ -36,17 +36,19 @@ namespace {
   {
   public:
 
-    const char * name() const final BOOST_SYSTEM_NOEXCEPT {
+    const char * name() const EASY_NOEXCEPT
+    {
       return "user_error";
     }
-    std::string message( int ev ) const final {
+    std::string message(int ev) const EASY_FINAL
+    {
       return "test";
     }
   };
 
   user_error_category g_cat;
 
-  inline easy::error_code make_error_code(user_error e) BOOST_SYSTEM_NOEXCEPT
+  inline easy::error_code make_error_code(user_error e) EASY_NOEXCEPT
   { return easy::error_code((int)e, g_cat); }
 
 
@@ -62,8 +64,11 @@ namespace {
 }
 
 
+
+
 BOOST_AUTO_TEST_CASE(ErrorCode)
 {
+
   easy::error_code _ec = user_error::invalid;
   test_func1(_ec);
   bool res = _ec == user_error::invalid;

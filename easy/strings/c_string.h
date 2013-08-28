@@ -1,14 +1,28 @@
+/*!
+ * \file   easy/strings/c_string.h
+ * \author Sergey Tararay
+ * \date   04.08.2013
+ *
+ * FILE DESCRIPTION
+ */
 #ifndef EASY_C_STRING_H_INCLUDED
 #define EASY_C_STRING_H_INCLUDED
 
 #include <easy/config.h>
+#include <easy/stlex/nullptr_t.h>
 #include <easy/strings/stringable_fwd.h>
+
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/is_same.hpp>
+#include <boost/type_traits/remove_cv.hpp>
+#include <boost/mpl/and.hpp>
 
 #include <memory>
 #include <string>
 
 namespace easy
 {
+
   template<class TChar>
   class basic_c_string
   {
@@ -44,12 +58,17 @@ namespace easy
     }
 
     template<class TStr>
-    basic_c_string(const TStr& str) {
-      EASY_STATIC_ASSERT(
-        is_stringable<typename boost::remove_cv<TStr>::type>::value,
-        "The 'TStr' is not a stringable type"
-      );
-      *this = this_type(make_c_string<char_type>(str));
+    basic_c_string(const TStr& str, 
+      typename boost::enable_if<
+        boost::is_same<
+          typename get_underlying_char_type<
+            typename boost::remove_cv<TStr>::type
+          >::type,
+          char_type
+        >        
+      >::type* = nullptr) 
+    {
+      *this = this_type(make_c_string(str));
     }
 
     const_iterator begin() const EASY_NOEXCEPT {
@@ -96,6 +115,10 @@ namespace easy
       return c_str()[index];
     }
 
+    bool operator ! () const {
+      return empty();
+    }
+
   private:
     basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {
       m_str = r.m_str;
@@ -118,8 +141,13 @@ namespace easy
 
 
   typedef basic_c_string<char> c_string;
-#ifdef EASY_HAVE_WCAHR
+  typedef c_string             c_utf8_string;
+  typedef std::string          utf8_string;
+
+#ifdef EASY_HAS_WCAHR
   typedef basic_c_string<wchar_t> c_wstring;
+  typedef c_wstring               c_utf16_string;
+  typedef std::wstring            utf16_string;
 #endif
   
 }

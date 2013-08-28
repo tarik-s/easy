@@ -15,5 +15,7 @@
 #include <easy/flags.h>
 #include <easy/strings.h>
 
+#include <easy/scope.h>
+
 
 #endif

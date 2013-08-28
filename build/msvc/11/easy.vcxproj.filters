@@ -24,53 +24,104 @@
     <Filter Include="src\strings">
       <UniqueIdentifier>{3c7466d0-ff8d-4977-b6ea-83bfb7eee0be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="easy\stlex">
+      <UniqueIdentifier>{60e1e15f-a4af-4adf-9f4f-0f5fd75f1594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\db">
+      <UniqueIdentifier>{e54890ae-bc6d-4ba2-b7a4-80496e27ec06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\db\sqlite">
+      <UniqueIdentifier>{56603b55-4883-4bf0-b1cc-d62855d243a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\db">
+      <UniqueIdentifier>{c9e21de0-1596-4033-9c52-6d151031a59b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\db\sqlite">
+      <UniqueIdentifier>{6a326b81-1f0b-4ec5-917d-3aa6c4236013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="easy\db\sqlite\detail">
+      <UniqueIdentifier>{36e5ba19-3a7b-49a5-a771-11897955f621}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\easy\config.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\easy.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\error_code_ref.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\flags.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\streams.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\strings.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\unspecified_bool.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\detail\error_code_ref_detail.h">
-      <Filter>easy\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\detail\unspecified_bool_detail.h">
-      <Filter>easy\detail</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\strings\c_string.h">
-      <Filter>easy\strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\strings\stringable_fwd.h">
-      <Filter>easy\strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\easy\detail\flags_detail.h">
-      <Filter>easy\detail</Filter>
-    </ClInclude>
+    <ClCompile Include="..\..\..\src\strings\string_conv.cpp">
+      <Filter>src\strings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\db\sqlite\sqlite.cpp">
+      <Filter>src\db\sqlite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\easy\strings\detail\stringable_stock.inl">
+    <None Include="..\..\..\easy\strings\detail\stringable_stock.inl">
       <Filter>easy\strings\detail</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\strings\string_conv.cpp">
-      <Filter>src\strings</Filter>
-    </ClCompile>
+    <ClInclude Include="..\..\..\easy\strings\c_string.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\strings\stringable_fwd.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\detail\error_code_ref_detail.h">
+      <Filter>easy\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\detail\flags_detail.h">
+      <Filter>easy\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\detail\unspecified_bool_detail.h">
+      <Filter>easy\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\config.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\easy.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\error_code_ref.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\flags.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\streams.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\strings.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\unspecified_bool.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\type_traits.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\stlex\nullptr_t.h">
+      <Filter>easy\stlex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\strings\string_conv.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\sqlite.h">
+      <Filter>easy\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\config.h">
+      <Filter>easy\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\sqlite\detail\sqlite_detail.h">
+      <Filter>easy\db\sqlite\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\sqlite\database.h">
+      <Filter>easy\db\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\sqlite\statement.h">
+      <Filter>easy\db\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\stlex\make_unique.h">
+      <Filter>easy\stlex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\scope.h">
+      <Filter>easy</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

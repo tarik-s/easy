@@ -11,6 +11,7 @@
 // Dependencies
 
 #include <easy/config.h>
+#include <easy/stlex/nullptr_t.h>
 
 #ifdef EASY_OS_WINDOWS
 #  include <Windows.h>
@@ -27,6 +28,12 @@ namespace easy
   using boost::system::error_code;
   using boost::system::system_error;
   using boost::system::error_category;
+
+  //! generic_error
+  enum class generic_error
+  {
+    null_ptr
+  };
 
   /*!
   * \class error_code_ref
@@ -146,7 +153,6 @@ namespace easy
       return !m_pcode;
     }
 
-  private:
     bool is_error() const EASY_NOEXCEPT {			
       return m_pcode && !!*m_pcode;
     }

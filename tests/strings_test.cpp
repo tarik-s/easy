@@ -18,8 +18,7 @@ namespace {
     value2
   };
 
-  template<class TChar>
-  std::basic_string<TChar> make_c_string(stringable_enum se) {
+  std::string make_c_string(stringable_enum se) {
     switch(se) {
     case stringable_enum::value1 : return "__value1";
     case stringable_enum::value2 : return "__value2";
@@ -29,7 +28,7 @@ namespace {
 }
 
 namespace easy {
-  template<> struct is_stringable<stringable_enum> : boost::true_type { };
+  template<> struct get_underlying_char_type<stringable_enum> { typedef char type; };
 }
 
 
@@ -42,17 +41,12 @@ BOOST_AUTO_TEST_CASE(Strings)
   std::string s("hello");
   c_string _cs = s;
 
-  const char* pstr = "world";
+//  const char* pstr = "world";
 
   stringable_enum se = stringable_enum::value2;
 
   c_string _cse = se;
 
   c_string csss(std::string("heeee"));
-
-  for (char c : csss) {
-    std::cout << c << '\n';
-  }
- 
 
 }

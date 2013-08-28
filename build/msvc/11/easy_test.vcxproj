@@ -84,13 +84,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\tests\error_code_ref_test.cpp" />
-    <ClCompile Include="..\..\..\..\tests\flags_test.cpp" />
-    <ClCompile Include="..\..\..\..\tests\main_test.cpp" />
-    <ClCompile Include="..\..\..\..\tests\strings_test.cpp" />
+    <ClCompile Include="..\..\..\..\..\SDK\sqlite\sqlite3.c" />
+    <ClCompile Include="..\..\..\tests\error_code_ref_test.cpp" />
+    <ClCompile Include="..\..\..\tests\flags_test.cpp" />
+    <ClCompile Include="..\..\..\tests\main_test.cpp" />
+    <ClCompile Include="..\..\..\tests\sqlite_test.cpp" />
+    <ClCompile Include="..\..\..\tests\strings_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\tests\include.h" />
+    <ClInclude Include="..\..\..\tests\include.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

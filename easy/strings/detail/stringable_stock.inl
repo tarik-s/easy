@@ -1,3 +1,10 @@
+/*!
+ * \file   easy/strings/detail/stringable_stock.inl
+ * \author Sergey Tararay
+ * \date   04.08.2013
+ *
+ * FILE DESCRIPTION
+ */
 #ifndef EASY_STRINGABLE_STOCK_H_INCLUDED
 #define EASY_STRINGABLE_STOCK_H_INCLUDED
 
@@ -12,25 +19,25 @@
 
 namespace easy
 {
-  template<> struct is_stringable<char*> : boost::true_type { };
-  template<> struct is_stringable<const char*> : boost::true_type { };
-  template<> struct is_stringable<volatile char*> : boost::true_type { };
-  template<> struct is_stringable<const volatile char*> : boost::true_type { };
-  template<> struct is_stringable<char[]> : boost::true_type { };
-  template<size_t TSize> struct is_stringable<char[TSize]> : boost::true_type { };
+  template<> struct get_underlying_char_type<char*> { typedef char type; };
+  template<> struct get_underlying_char_type<const char*> { typedef char type; };
+  template<> struct get_underlying_char_type<volatile char*> { typedef char type; };
+  template<> struct get_underlying_char_type<const volatile char*> { typedef char type; };
+  template<> struct get_underlying_char_type<char[]> { typedef char type; };
+  template<size_t TSize> struct get_underlying_char_type<char[TSize]> { typedef char type; };
 
-  template<> struct is_stringable<std::string> : boost::true_type { };
+  template<> struct get_underlying_char_type<std::string> { typedef char type; };
 
-#ifdef EASY_HAVE_WCAHR
-  template<> struct is_stringable<wchar_t*> : boost::true_type { };
-  template<> struct is_stringable<const wchar_t*> : boost::true_type { };
-  template<> struct is_stringable<volatile wchar_t*> : boost::true_type { };
-  template<> struct is_stringable<const volatile wchar_t*> : boost::true_type { };
-  template<> struct is_stringable<wchar_t[]> : boost::true_type { };
-  template<size_t TSize> struct is_stringable<wchar_t[TSize]> : boost::true_type { };
+#ifdef EASY_HAS_WCAHR
+  template<> struct get_underlying_char_type<wchar_t*> { typedef wchar_t type; };
+  template<> struct get_underlying_char_type<const wchar_t*> { typedef wchar_t type; };
+  template<> struct get_underlying_char_type<volatile wchar_t*> { typedef wchar_t type; };
+  template<> struct get_underlying_char_type<const volatile wchar_t*> { typedef wchar_t type; };
+  template<> struct get_underlying_char_type<wchar_t[]> { typedef wchar_t type; };
+  template<size_t TSize> struct get_underlying_char_type<wchar_t[TSize]> { typedef wchar_t type; };
 
   template<>
-  struct is_stringable<std::wstring> : boost::true_type { };
+  struct get_underlying_char_type<std::wstring> { typedef wchar_t type; };
 #endif
 }
 

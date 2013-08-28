@@ -11,14 +11,15 @@
 #include <easy/config.h>
 #include <easy/detail/flags_detail.h>
 
-#include <type_traits>
-
+#include <easy/type_traits.h>
 #include <boost/type_traits.hpp>
-#include <boost/utility/result_of.hpp>
 
 
 template<class T>
 easy::flags_detail::not_flags declare_as_flags(T);
+
+#define EASY_DECLARE_AS_FLAGS(enum_type) \
+  inline void declare_as_flags(enum_type) { }
 
 namespace easy
 {
@@ -38,7 +39,7 @@ namespace easy
 template<class T>
 typename boost::enable_if<easy::is_flag<T>, T
 >::type operator ~ (T flag) {
-  return static_cast<T>(~static_cast<std::underlying_type<T>::type>(flag));
+  return static_cast<T>(~static_cast<typename easy::underlying_type<T>::type>(flag));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -53,8 +54,8 @@ template<class T>
 typename boost::enable_if<easy::is_flag<T>, T
 >::type operator & (T flag1, T flag2) {
   return static_cast<T>(
-    static_cast<std::underlying_type<T>::type>(flag1) &
-    static_cast<std::underlying_type<T>::type>(flag2)
+    static_cast<typename easy::underlying_type<T>::type>(flag1) &
+    static_cast<typename easy::underlying_type<T>::type>(flag2)
   );
 }
 
@@ -70,8 +71,8 @@ template<class T>
 typename boost::enable_if<easy::is_flag<T>, T
 >::type operator | (T flag1, T flag2) {
   return static_cast<T>(
-    static_cast<std::underlying_type<T>::type>(flag1) |
-    static_cast<std::underlying_type<T>::type>(flag2)
+    static_cast<typename easy::underlying_type<T>::type>(flag1) |
+    static_cast<typename easy::underlying_type<T>::type>(flag2)
     );
 }
 
@@ -87,8 +88,8 @@ template<class T>
 typename boost::enable_if<easy::is_flag<T>, T
 >::type operator ^ (T flag1, T flag2) {
   return static_cast<T>(
-    static_cast<std::underlying_type<T>::type>(flag1) ^
-    static_cast<std::underlying_type<T>::type>(flag2)
+    static_cast<typename easy::underlying_type<T>::type>(flag1) ^
+    static_cast<typename easy::underlying_type<T>::type>(flag2)
     );
 }
 
