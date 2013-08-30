@@ -13,12 +13,11 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\db\sqlite\sqlite.cpp" />
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\easy\strings\detail\stringable_stock.inl" />
+    <ClCompile Include="..\..\..\src\windows\registry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\easy\config.h" />
+    <ClInclude Include="..\..\..\easy\config\windows_config.inl" />
     <ClInclude Include="..\..\..\easy\db\config.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\detail\sqlite_detail.h" />
@@ -36,10 +35,14 @@
     <ClInclude Include="..\..\..\easy\streams.h" />
     <ClInclude Include="..\..\..\easy\strings.h" />
     <ClInclude Include="..\..\..\easy\strings\c_string.h" />
-    <ClInclude Include="..\..\..\easy\strings\stringable_fwd.h" />
+    <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h" />
     <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
     <ClInclude Include="..\..\..\easy\type_traits.h" />
     <ClInclude Include="..\..\..\easy\unspecified_bool.h" />
+    <ClInclude Include="..\..\..\easy\windows\config.h" />
+    <ClInclude Include="..\..\..\easy\windows\error.h" />
+    <ClInclude Include="..\..\..\easy\windows\registry.h" />
+    <ClInclude Include="..\..\..\easy\windows\windows.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{72DBA71B-7201-437C-8E7F-46A8D1EE05ED}</ProjectGuid>

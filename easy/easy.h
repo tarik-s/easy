@@ -14,8 +14,12 @@
 #include <easy/error_code_ref.h>
 #include <easy/flags.h>
 #include <easy/strings.h>
-
 #include <easy/scope.h>
+
+
+#ifdef EASY_OS_WINDOWS
+#include <easy/windows/windows.h>
+#endif
 
 
 #endif

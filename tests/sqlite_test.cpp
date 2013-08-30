@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(SQLite)
   st.next();
   //BOOST_CHECK(!ec);
 
-  st.next();
+  //st.next();
   //BOOST_CHECK(!ec);
 
 }

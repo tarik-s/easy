@@ -58,11 +58,11 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.2131698471" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.1186764440" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
 								<option id="gnu.cpp.link.option.paths.273892480" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;E:\SDK\boost_1_54_0\stage\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\SDK\boost_1_54_0\stage\mingw-4.7\lib&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1581347776" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_system-mgw46-mt-d-1_54"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_unit_test_framework-mgw46-mt-d-1_54"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_system-mgw47-mt-d-1_54"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_unit_test_framework-mgw47-mt-d-1_54"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1000618675" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -121,6 +121,7 @@
 								<option id="gnu.cpp.link.option.paths.844474692" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${SDK_DIR}\boost_1_54_0\stage\lib&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;E:\SDK\boost_1_54_0\stage\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\SDK\boost_1_54_0\stage\mingw-4.7\lib&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1328278067" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

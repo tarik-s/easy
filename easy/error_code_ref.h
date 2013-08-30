@@ -13,10 +13,6 @@
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
 
-#ifdef EASY_OS_WINDOWS
-#  include <Windows.h>
-#endif
-
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
 
@@ -120,12 +116,6 @@ namespace easy
     void set_system_error(int code) {
       set(code, boost::system::system_category());
     }
-
-#ifdef EASY_OS_WINDOWS
-    void set_last_win_error() {
-      set_system_error(::GetLastError());
-    }
-#endif
 
     void clear() EASY_NOEXCEPT {
       if (m_pcode)

@@ -10,25 +10,42 @@
 
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
-#include <easy/strings/stringable_fwd.h>
+#include <easy/strings/underlying_char_type.h>
 
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_cv.hpp>
 #include <boost/mpl/and.hpp>
 
+#include <boost/noncopyable.hpp>
+
 #include <memory>
 #include <string>
 
 namespace easy
 {
+  template<class TChar> class basic_c_string;
+}
 
+template<class TChar>
+easy::basic_c_string<TChar> make_c_string(const TChar* pstr) {
+  return easy::basic_c_string<TChar>(pstr, std::char_traits<TChar>::length(pstr));
+}
+
+namespace std
+{
+  template<class TChar>
+  easy::basic_c_string<TChar> make_c_string(const basic_string<TChar>& str) {
+    return easy::basic_c_string<TChar>(str.c_str(), str.size());
+  }
+}
+
+namespace easy
+{
   template<class TChar>
   class basic_c_string
+    : boost::noncopyable
   {
-    basic_c_string(const basic_c_string&);
-    basic_c_string& operator = (const basic_c_string&);
-
   public:
     typedef basic_c_string   this_type;
     typedef TChar            char_type;
@@ -45,7 +62,7 @@ namespace easy
     basic_c_string(nullptr_t) EASY_NOEXCEPT { }
 
     basic_c_string(basic_c_string && r) EASY_NOEXCEPT {
-      *this = r;
+      *this = std::move(r);
     }
 
     basic_c_string(string_type && str)
@@ -115,14 +132,14 @@ namespace easy
       return c_str()[index];
     }
 
-    bool operator ! () const {
+    bool operator ! () const EASY_NOEXCEPT {
       return empty();
     }
 
   private:
     basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {
       m_str = r.m_str;
-      m_holder_ptr.swap(r.m_holder_ptr);
+      m_holder_ptr = std::move(r.m_holder_ptr);
       return *this;
     }
 
