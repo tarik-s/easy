@@ -169,6 +169,4 @@ namespace easy
   
 }
 
-#include <easy/strings/detail/stringable_stock.inl>
-
 #endif
