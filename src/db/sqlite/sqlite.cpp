@@ -172,11 +172,6 @@ namespace easy { namespace db { namespace sqlite
     return *this;
   }
 
-  bool database::operator!() const
-  {
-    return !m_impl_ptr;
-  }
-
   bool database::execute(const c_utf8_string& sql, error_code_ref ec)
   {
     if (m_impl_ptr) {

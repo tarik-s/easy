@@ -11,7 +11,7 @@
 #include <easy/config.h>
 #include <easy/detail/flags_detail.h>
 
-#include <easy/type_traits.h>
+#include <easy/stlex/type_traits.h>
 #include <boost/type_traits.hpp>
 
 

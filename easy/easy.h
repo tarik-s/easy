@@ -10,7 +10,7 @@
 
 #include <easy/config.h>
 
-#include <easy/unspecified_bool.h>
+#include <easy/explicit_operator_bool.h>
 #include <easy/error_code_ref.h>
 #include <easy/flags.h>
 #include <easy/strings.h>

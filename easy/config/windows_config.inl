@@ -12,6 +12,13 @@
 
 #define EASY_WIN_VERSION EASY_WINDOWS_XP
 
+#ifdef WINVER
+#  undef WINVER
+#endif
+
+#ifdef _WIN32_WINNT
+#  undef _WIN32_WINNT
+#endif
 
 #define WINVER        EASY_WIN_VERSION
 #define _WIN32_WINNT  EASY_WIN_VERSION

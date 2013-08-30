@@ -28,7 +28,7 @@ namespace {
 }
 
 namespace easy {
-  template<> struct get_underlying_char_type<stringable_enum> { typedef char type; };
+  template<> struct underlying_char_type<stringable_enum> { typedef char type; };
 }
 
 

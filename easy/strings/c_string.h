@@ -11,6 +11,7 @@
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
 #include <easy/strings/underlying_char_type.h>
+#include <easy/stlex/explicit_operator_bool.h>
 
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -78,7 +79,7 @@ namespace easy
     basic_c_string(const TStr& str, 
       typename boost::enable_if<
         boost::is_same<
-          typename get_underlying_char_type<
+          typename underlying_char_type<
             typename boost::remove_cv<TStr>::type
           >::type,
           char_type
@@ -132,9 +133,7 @@ namespace easy
       return c_str()[index];
     }
 
-    bool operator ! () const EASY_NOEXCEPT {
-      return empty();
-    }
+    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!empty())
 
   private:
     basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {

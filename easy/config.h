@@ -53,6 +53,7 @@
 #  define EASY_HAS_OVERRIDE_KEYWORD
 #elif defined (EASY_GCC)
 #  define EASY_HAS_NOEXCEPT
+#  define EASY_HAS_EXPLICIT_OPERATOR
 #endif
 
 //////////////////////////////////////////////////////////////////////////

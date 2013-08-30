@@ -67,9 +67,6 @@
     <ClInclude Include="..\..\..\easy\detail\flags_detail.h">
       <Filter>easy\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\easy\detail\unspecified_bool_detail.h">
-      <Filter>easy\detail</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\easy\config.h">
       <Filter>easy</Filter>
     </ClInclude>
@@ -86,12 +83,6 @@
       <Filter>easy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\strings.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\unspecified_bool.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\type_traits.h">
       <Filter>easy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\stlex\nullptr_t.h">
@@ -138,6 +129,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h">
       <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\stlex\explicit_operator_bool.h">
+      <Filter>easy\stlex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\stlex\type_traits.h">
+      <Filter>easy\stlex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

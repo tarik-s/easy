@@ -23,6 +23,8 @@ namespace db
       statement& operator = (statement && r) EASY_NOEXCEPT;
       statement(database& _db, const c_utf8_string& query, error_code_ref ec = nullptr);
 
+      EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_impl_ptr)
+
       bool next(error_code_ref ec = nullptr);
     protected:
       statement(impl_ptr && r);

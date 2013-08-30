@@ -16,7 +16,7 @@
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
 
-#include <easy/unspecified_bool.h>
+#include <easy/stlex/explicit_operator_bool.h>
 #include <easy/detail/error_code_ref_detail.h>
 
 namespace easy
@@ -129,17 +129,9 @@ namespace easy
       return detail::error_code_holder(m_pcode);
     }
 
-    //
+    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(is_error())
 
-    operator unspecified_bool_type() const EASY_NOEXCEPT {
-      return is_error() ? unspecified_true() : nullptr;
-    }
-
-    bool operator!() const EASY_NOEXCEPT {
-      return !is_error();
-    }
-
-    bool throwable() const EASY_NOEXCEPT {
+    bool is_throwable() const EASY_NOEXCEPT {
       return !m_pcode;
     }
 
