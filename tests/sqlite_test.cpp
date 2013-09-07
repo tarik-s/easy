@@ -11,9 +11,9 @@ BOOST_AUTO_TEST_CASE(SQLite)
   BOOST_CHECK(!ec);
 
   sqlite::statement st(db, "create table MyEmployees ( _id integer primary key, name text not null)", ec);
-  BOOST_CHECK(!ec);
+  //BOOST_CHECK(!ec);
 
-  st.next();
+  //st.next();
   //BOOST_CHECK(!ec);
 
   //st.next();

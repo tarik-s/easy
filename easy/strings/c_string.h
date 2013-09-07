@@ -52,7 +52,8 @@ namespace easy
     typedef TChar            char_type;
     typedef char_type        value_type;
     typedef size_t           size_type;          
-    typedef const char_type& const_reference;    
+    typedef const char_type& const_reference;
+    typedef const char_type* iterator;
     typedef const char_type* const_iterator;
 
     typedef std::basic_string<char_type> string_type;
@@ -133,6 +134,15 @@ namespace easy
       return c_str()[index];
     }
 
+    operator string_type() const {
+      if (empty())
+        return string_type();
+      else if (m_holder_ptr)
+        return *m_holder_ptr;
+      else
+        return string_type(c_str(), length());
+    }
+
     EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!empty())
 
   private:
@@ -164,6 +174,7 @@ namespace easy
   typedef basic_c_string<wchar_t> c_wstring;
   typedef c_wstring               c_utf16_string;
   typedef std::wstring            utf16_string;
+  typedef utf16_string            unicode_string;
 #endif
   
 }

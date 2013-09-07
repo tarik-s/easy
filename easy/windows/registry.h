@@ -3,15 +3,22 @@
 
 #include <easy/windows/config.h>
 
+#include <easy/types.h>
 #include <easy/error_code_ref.h>
 #include <easy/strings.h>
+
+#include <vector>
+
+#include <boost/iterator/iterator_facade.hpp>
+#include <boost/range/iterator_range.hpp>
+#include <boost/variant.hpp>
 
 #include <Windows.h>
 
 namespace easy {
-namespace windows {
-namespace registry 
+namespace windows 
 {
+
   enum class reg_hive : int {
     hkey_classes_root                = (int)HKEY_CLASSES_ROOT,
     hkey_current_user                = (int)HKEY_CURRENT_USER,
@@ -29,7 +36,15 @@ namespace registry
     hklm = hkey_local_machine,
   };
 
-  enum class reg_value_type {
+  enum class reg_value_type 
+  {
+    none = -1,
+    int_,
+    int64_,
+    string,
+    multi_string,
+    binary
+    /*
     none                = REG_NONE,
     sz                  = REG_SZ,
     expand_sz           = REG_EXPAND_SZ,
@@ -39,7 +54,16 @@ namespace registry
     link                = REG_LINK,
     multi_sz            = REG_MULTI_SZ,
     qword               = REG_QWORD,  
+    */
   };
+
+  typedef boost::variant<
+    int,
+    int64,
+    std::wstring,
+    wstring_list,
+    byte_vector
+  > reg_value;
 
   enum class reg_option {
     non_volatile   = REG_OPTION_NON_VOLATILE,
@@ -88,8 +112,43 @@ namespace registry
     reg_option option;
     reg_open_mode open_mode;
   };
+    
+  class reg_key;
+
+  class reg_key_iterator
+    : public boost::iterator_facade<reg_key_iterator, const std::wstring, boost::forward_traversal_tag>
+  {
+  public:
+    reg_key_iterator() EASY_NOEXCEPT;
+    reg_key_iterator(reg_key_iterator && r) EASY_NOEXCEPT;
+    explicit reg_key_iterator(const reg_key& key, error_code_ref ec = nullptr);
+    ~reg_key_iterator() EASY_NOEXCEPT;
+
+    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!equal(reg_key_iterator()))
+
+  private:
+    friend class boost::iterator_core_access;
+    friend class reg_key_enum_impl;
+    void increment();
+    bool equal(const reg_key_iterator& other) const EASY_NOEXCEPT;
+    const std::wstring& dereference() const;
+
+  private:
+    typedef std::shared_ptr<reg_key_enum_impl> impl_ptr;
+    impl_ptr m_pimpl;
+  };
+
+  class reg_value_iterator
+  {
+  public:
+
+  private:
+  };
+
+  typedef boost::iterator_range<reg_key_iterator> reg_key_iterator_range;
 
   class reg_key
+    : boost::noncopyable
   {
   public:
     typedef HKEY handle_type;
@@ -108,23 +167,27 @@ namespace registry
     // destructors
     ~reg_key() EASY_NOEXCEPT;
 
-    // key deleters
-    bool delete_key(const c_wstring& subkey, error_code_ref ec = nullptr);
-    static bool delete_key(reg_hive h, const c_wstring& subkey, error_code_ref ec = nullptr);
-
     handle_type handle() const EASY_NOEXCEPT {
       return m_key;
     }
 
+    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_key)
+
+    // key deleters
+    bool delete_key(const c_wstring& subkey, error_code_ref ec = nullptr);
+    static bool delete_key(reg_hive h, const c_wstring& subkey, error_code_ref ec = nullptr);
+
+    // enumerators
+    reg_key_iterator enum_keys(error_code_ref ec = nullptr) const;
+    reg_key_iterator_range keys(error_code_ref ec = nullptr) const;
   private:
     reg_key(HKEY key, const c_wstring& subkey, const reg_open_options& options, error_code_ref ec, void* dummy);
+
   private:
     HKEY m_key;
   };
+    
 
-
-  
-
-}}}
+}}
 
 #endif

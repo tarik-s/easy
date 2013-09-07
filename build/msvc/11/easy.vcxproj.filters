@@ -56,6 +56,12 @@
     <ClCompile Include="..\..\..\src\windows\registry.cpp">
       <Filter>src\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\synchronization.cpp">
+      <Filter>src\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\environment.cpp">
+      <Filter>src\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\easy\strings\c_string.h">
@@ -135,6 +141,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\stlex\type_traits.h">
       <Filter>easy\stlex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\range.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\types.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\environment.h">
+      <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\synchronization.h">
+      <Filter>easy\windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

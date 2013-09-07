@@ -90,10 +90,16 @@
 
 
 #ifdef _DEBUG
-#  define EASY_ASSERT(condition) assert(condition)
+#  define EASY_ASSERT(condition) /*assert(condition)*/
 #else
 #  define EASY_ASSERT(condition)
 #endif
+
+#define EASY_TEST_BOOL(Value)   \
+  {                             \
+    if (!Value)                 \
+      throw std::exception(""); \
+  }
 
 
 

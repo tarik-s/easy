@@ -3,6 +3,9 @@
 
 #include <easy/windows/config.h>
 
+#include <easy/windows/synchronization.h>
+#include <easy/windows/environment.h>
 #include <easy/windows/registry.h>
+
 
 #endif

@@ -28,7 +28,8 @@ namespace easy
   //! generic_error
   enum class generic_error
   {
-    null_ptr
+    null_ptr,
+    invalid_value
   };
 
   /*!
@@ -141,6 +142,15 @@ namespace easy
   private:
     error_code* m_pcode;
   };
+}
+
+namespace boost {
+  namespace system {
+    template<>
+    struct is_error_code_enum<easy::generic_error>
+      : boost::true_type {
+    };
+  }
 }
 
 #endif

@@ -17,7 +17,7 @@ namespace easy
       // first find the size
       int size = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, nullptr, 0);
       if (size == 0) {
-        ec = windows::last_win_error();
+        ec = windows::make_last_win_error();
         return utf16_string();
       }
 
@@ -29,7 +29,7 @@ namespace easy
       if (res_size == size)
         return result;
 
-      ec = windows::last_win_error();
+      ec = windows::make_last_win_error();
       return utf16_string();
     }
 
@@ -43,7 +43,7 @@ namespace easy
       // first find the size
       int size = ::WideCharToMultiByte(CP_UTF8, flags, s.c_str(), -1,  nullptr, 0, nullptr, nullptr);
       if (size == 0) {
-        ec = windows::last_win_error();
+        ec = windows::make_last_win_error();
         return utf8_string();
       }
 
@@ -55,7 +55,7 @@ namespace easy
       if (res_size == size)
         return result;
 
-      ec = windows::last_win_error();
+      ec = windows::make_last_win_error();
       return utf8_string();
     }
 #else

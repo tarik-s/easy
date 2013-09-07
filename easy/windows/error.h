@@ -10,12 +10,12 @@
 namespace easy {
 namespace windows 
 {
-  inline error_code win_error(DWORD code) {
+  inline error_code make_win_error(DWORD code) {
     return error_code(code, boost::system::system_category());
   }
 
-  inline error_code last_win_error() {
-    return win_error(::GetLastError());
+  inline error_code make_last_win_error() {
+    return make_win_error(::GetLastError());
   }
 
 
