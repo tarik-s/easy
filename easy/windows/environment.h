@@ -37,7 +37,9 @@ namespace windows
 
     bool set_value(const c_wstring& _value, target _target, error_code_ref ec = nullptr);
 
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!m_name.empty())
+    bool operator !() const {
+      return m_name.empty();
+    }
 
   private:
     friend class environment_variable_iterator_impl;
@@ -64,8 +66,6 @@ namespace windows
     ~environment_variable_iterator() EASY_NOEXCEPT;
 
     target get_target() const EASY_NOEXCEPT;
-
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!equal(environment_variable_iterator()))
 
   private:
     friend class boost::iterator_core_access;

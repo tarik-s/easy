@@ -1,7 +1,7 @@
 /*!
  * \file   easy/scope.h
  * \author Sergey Tararay
- * \date   28.08.2013
+ * \date   2013
  *
  * FILE DESCRIPTION
  */

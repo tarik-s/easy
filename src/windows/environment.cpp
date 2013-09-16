@@ -190,7 +190,7 @@ namespace windows
       : environment_variable_iterator_impl(_target) 
       , m_key(make_key(_target, ec))
     {
-
+      
     }
 
     bool increment() EASY_FINAL {
@@ -207,6 +207,7 @@ namespace windows
       else if (_target == target::user)
         return reg_key(reg_hive::hkcu, L"Environment", options, ec);
 
+      ec = generic_error::invalid_value;
       return reg_key();
     }
   private:
@@ -229,8 +230,9 @@ namespace windows
   {
     if (_target == target::process)
       m_pimpl = std::make_shared<process_environment_variable_iterator_impl>(ec);
-    else
-      m_pimpl = std::make_shared<reg_environment_variable_iterator_impl>(_target, ec);    
+    else if (_target == target::machine || _target == target::user)
+      m_pimpl = std::make_shared<reg_environment_variable_iterator_impl>(_target, ec);
+    ec = generic_error::invalid_value;
   }
 
   environment_variable_iterator::~environment_variable_iterator()

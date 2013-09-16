@@ -64,12 +64,13 @@ namespace {
 }
 
 
-
-
 BOOST_AUTO_TEST_CASE(ErrorCode)
 {
 
   easy::error_code _ec = user_error::invalid;
+
+  easy::error_code_ref ec = _ec;
+
   test_func1(_ec);
   bool res = _ec == user_error::invalid;
   BOOST_CHECK(res);

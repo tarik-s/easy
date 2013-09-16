@@ -45,7 +45,6 @@ namespace windows {
   typedef lock<critical_section> critical_section_lock;
 
 
-}
-}
+}}
 
 #endif

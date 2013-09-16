@@ -73,7 +73,7 @@ namespace db {
       database(const c_utf8_string& db_file_path, open_flag flags, error_code_ref ec = nullptr);
       database(const c_utf16_string& db_file_path, open_flag flags, error_code_ref ec = nullptr);      
 
-      EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_impl_ptr)
+      //EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_impl_ptr)
 
       bool execute(const c_utf8_string& sql, error_code_ref ec = nullptr);
       bool execute(const c_utf16_string& sql, error_code_ref ec = nullptr);

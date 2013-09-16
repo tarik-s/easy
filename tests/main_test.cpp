@@ -10,6 +10,25 @@ BOOST_AUTO_TEST_CASE(MainEasyTest)
 
   using namespace easy::windows;
 
+  scoped_handle h;//(10, 20);
+  h = nullptr;
+
+  scoped_event evt(event_type::auto_, event_state::set);
+  evt.set();
+
+  evt = scoped_event(event_type::manual, event_state::reset);
+
+  //scoped_event evt1 = evt;
+
+  shared_event sevt;
+
+  shared_event sev2(event_type::manual, event_state::reset);
+  sevt = sev2;
+
+  h.reset(HANDLE(23));
+
+  h = nullptr;
+
   reg_key key(reg_hive::hkcu, L"Software\\ABBYY");
 
   auto subkeys = key.keys();

@@ -3,14 +3,12 @@
 
 #include <easy/config.h>
 
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/utility/enable_if.hpp>
-#include <boost/noncopyable.hpp>
-
 namespace easy
 {
-  
+  template<class T>
+  bool is_in_range(T val, T begin, T end) {
+    return val >= begin && val < end;
+  }
 }
 
 #endif

@@ -124,8 +124,6 @@ namespace windows
     explicit reg_key_iterator(const reg_key& key, error_code_ref ec = nullptr);
     ~reg_key_iterator() EASY_NOEXCEPT;
 
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!equal(reg_key_iterator()))
-
   private:
     friend class boost::iterator_core_access;
     friend class reg_key_enum_impl;
@@ -143,6 +141,7 @@ namespace windows
   public:
 
   private:
+
   };
 
   typedef boost::iterator_range<reg_key_iterator> reg_key_iterator_range;
@@ -170,8 +169,6 @@ namespace windows
     handle_type handle() const EASY_NOEXCEPT {
       return m_key;
     }
-
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_key)
 
     // key deleters
     bool delete_key(const c_wstring& subkey, error_code_ref ec = nullptr);

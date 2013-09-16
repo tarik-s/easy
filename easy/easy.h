@@ -11,7 +11,7 @@
 #include <easy/config.h>
 
 #include <easy/types.h>
-#include <easy/stlex/explicit_operator_bool.h>
+#include <easy/safe_bool.h>
 #include <easy/error_code_ref.h>
 #include <easy/flags.h>
 #include <easy/strings.h>

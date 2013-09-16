@@ -11,7 +11,7 @@
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
 #include <easy/strings/underlying_char_type.h>
-#include <easy/stlex/explicit_operator_bool.h>
+#include <easy/safe_bool.h>
 
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
@@ -45,7 +45,8 @@ namespace easy
 {
   template<class TChar>
   class basic_c_string
-    : boost::noncopyable
+    : public safe_bool<basic_c_string<TChar>>
+    , boost::noncopyable
   {
   public:
     typedef basic_c_string   this_type;
@@ -143,7 +144,9 @@ namespace easy
         return string_type(c_str(), length());
     }
 
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(!empty())
+    bool operator !() const {
+      return empty();
+    }
 
   private:
     basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {

@@ -15,8 +15,9 @@
 
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
+#include <boost/type_traits/integral_constant.hpp>
 
-#include <easy/stlex/explicit_operator_bool.h>
+#include <easy/safe_bool.h>
 #include <easy/detail/error_code_ref_detail.h>
 
 namespace easy
@@ -28,9 +29,20 @@ namespace easy
   //! generic_error
   enum class generic_error
   {
+    ok               = 0,
     null_ptr,
     invalid_value
   };
+
+  class generic_error_category
+    : public error_category
+  {
+  public:
+    const char* name() const EASY_NOEXCEPT;
+    std::string message(int ev) const EASY_FINAL;
+  };
+
+  error_code make_error_code(generic_error e) EASY_NOEXCEPT;
 
   /*!
   * \class error_code_ref
@@ -38,6 +50,7 @@ namespace easy
   * \brief error_code_ref class that is used to indicate conversion errors
   */
   class error_code_ref
+    : public safe_bool<error_code_ref>
   {
   private:
     error_code_ref(error_code&&);
@@ -130,8 +143,6 @@ namespace easy
       return detail::error_code_holder(m_pcode);
     }
 
-    EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(is_error())
-
     bool is_throwable() const EASY_NOEXCEPT {
       return !m_pcode;
     }
@@ -139,6 +150,11 @@ namespace easy
     bool is_error() const EASY_NOEXCEPT {			
       return m_pcode && !!*m_pcode;
     }
+
+    bool operator !() const EASY_NOEXCEPT {
+      return !is_error();
+    }
+
   private:
     error_code* m_pcode;
   };

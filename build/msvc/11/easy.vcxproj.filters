@@ -62,6 +62,12 @@
     <ClCompile Include="..\..\..\src\windows\environment.cpp">
       <Filter>src\windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\error_code_ref.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\api.cpp">
+      <Filter>src\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\easy\strings\c_string.h">
@@ -136,9 +142,6 @@
     <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h">
       <Filter>easy\strings</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\easy\stlex\explicit_operator_bool.h">
-      <Filter>easy\stlex</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\easy\stlex\type_traits.h">
       <Filter>easy\stlex</Filter>
     </ClInclude>
@@ -153,6 +156,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\windows\synchronization.h">
       <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\safe_bool.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\handle.h">
+      <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\api.h">
+      <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\safe_call.h">
+      <Filter>easy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

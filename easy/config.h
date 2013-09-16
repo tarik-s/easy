@@ -51,6 +51,7 @@
 #  define EASY_HAS_UNDERLYING_TYPE
 #  define EASY_HAS_FINAL_KEYWORD
 #  define EASY_HAS_OVERRIDE_KEYWORD
+//#  define EASY_HAS_NESTED_EXCEPTION
 #elif defined (EASY_GCC)
 #  define EASY_HAS_NOEXCEPT
 #  define EASY_HAS_EXPLICIT_OPERATOR
@@ -107,7 +108,6 @@
   static_assert(condition, message)
 
 #define EASY_HAS_WCAHR
-
 
 //////////////////////////////////////////////////////////////////////////
 
