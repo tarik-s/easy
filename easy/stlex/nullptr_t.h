@@ -4,8 +4,8 @@
  *  @date   2013
  *
  */
-#ifndef EASY_STLEX_NULLPTR_T_INCLUDED_H
-#define EASY_STLEX_NULLPTR_T_INCLUDED_H
+#ifndef EASY_STLEX_NULLPTR_T_H_INCLUDED
+#define EASY_STLEX_NULLPTR_T_H_INCLUDED
 
 #include <easy/config.h>
 

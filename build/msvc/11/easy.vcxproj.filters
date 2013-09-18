@@ -166,5 +166,8 @@
     <ClInclude Include="..\..\..\easy\config\common_config.h">
       <Filter>easy\config</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\sqlite\config.h">
+      <Filter>easy\db\sqlite</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

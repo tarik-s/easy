@@ -1,7 +1,12 @@
-#ifndef EASY_DB_SQLITE_DATABASE_H
-#define EASY_DB_SQLITE_DATABASE_H
+/*!
+ *  @file   easy/db/sqlite/database.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
+#ifndef EASY_DB_SQLITE_DATABASE_H_INCLUDED
+#define EASY_DB_SQLITE_DATABASE_H_INCLUDED
 
-#include <easy/db/config.h>
+#include <easy/db/sqlite/config.h>
 #include <easy/db/sqlite/detail/sqlite_detail.h>
 
 #include <easy/strings.h>

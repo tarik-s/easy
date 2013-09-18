@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/windows/handle.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_WINDOWS_HANDLE_H_INCLUDED
 #define EASY_WINDOWS_HANDLE_H_INCLUDED
 
@@ -47,7 +52,7 @@ namespace windows
 
     handle_type release_handle() EASY_NOEXCEPT {
       handle_type h = m_handle;
-      m_handle = traits_type::invalid_handle;
+      m_handle = traits_type::get_invalid_handle();
       return h;
     }
 

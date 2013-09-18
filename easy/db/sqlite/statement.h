@@ -1,7 +1,12 @@
-#ifndef EASY_DB_SQLITE_STATEMENT_H
-#define EASY_DB_SQLITE_STATEMENT_H
+/*!
+ *  @file   easy/db/sqlite/statement.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
+#ifndef EASY_DB_SQLITE_STATEMENT_H_INCLUDED
+#define EASY_DB_SQLITE_STATEMENT_H_INCLUDED
 
-#include <easy/db/config.h>
+#include <easy/db/sqlite/config.h>
 #include <easy/db/sqlite/detail/sqlite_detail.h>
 
 namespace easy { 

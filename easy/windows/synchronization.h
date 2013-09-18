@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/windows/synchronization.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_WINDOWS_SYNCHRONIZATION_H_INCLUDED
 #define EASY_WINDOWS_SYNCHRONIZATION_H_INCLUDED
 

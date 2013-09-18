@@ -4,8 +4,8 @@
  *  @date   2013
  *
  */
-#ifndef EASY_TYPE_TRAITS_H
-#define EASY_TYPE_TRAITS_H
+#ifndef EASY_STLEX_TYPE_TRAITS_H_INCLUDED
+#define EASY_STLEX_TYPE_TRAITS_H_INCLUDED
 
 #include <easy/config.h>
 #include <type_traits>

@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\..\easy\config\windows_config.h" />
     <ClInclude Include="..\..\..\easy\db\config.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite\config.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\detail\sqlite_detail.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\database.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\statement.h" />

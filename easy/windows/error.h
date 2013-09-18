@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/windows/error.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_WINDOWS_ERROR_H_INCLUDED
 #define EASY_WINDOWS_ERROR_H_INCLUDED
 

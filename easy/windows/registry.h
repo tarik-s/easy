@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/windows/registry.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_WINDOWS_REGISTRY_H_INCLUDED
 #define EASY_WINDOWS_REGISTRY_H_INCLUDED
 
