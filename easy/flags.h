@@ -1,22 +1,20 @@
 /*!
- * \file   easy/flags.h
- * \author Sergey Tararay
- * \date   04.08.2013
- *
- * FILE DESCRIPTION
+ *  @file   easy/flags.h
+ *  @author Sergey Tararay
+ *  @date   2013
  */
 #ifndef EASY_FLAGS_H_INCLUDED
 #define EASY_FLAGS_H_INCLUDED
 
 #include <easy/config.h>
-#include <easy/detail/flags_detail.h>
-
 #include <easy/stlex/type_traits.h>
+#include <easy/stlex/nullptr_t.h>
+
 #include <boost/type_traits.hpp>
 
 
 template<class T>
-easy::flags_detail::not_flags declare_as_flags(T);
+easy::nullptr_t declare_as_flags(T);
 
 #define EASY_DECLARE_AS_FLAGS(enum_type) \
   inline void declare_as_flags(enum_type) { }
@@ -28,7 +26,7 @@ namespace easy
     : boost::mpl::not_<
       boost::is_same<
           decltype(declare_as_flags(T()))
-        , easy::flags_detail::not_flags
+        , nullptr_t
       >
     > {
   };

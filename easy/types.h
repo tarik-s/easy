@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/types.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_TYPES_H_INCLUDED
 #define EASY_TYPES_H_INCLUDED
 

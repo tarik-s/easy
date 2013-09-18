@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/range.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_RANGE_H_INCLUDED
 #define EASY_RANGE_H_INCLUDED
 

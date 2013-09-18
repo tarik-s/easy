@@ -1,9 +1,8 @@
 /*!
- * \file   easy/stlex/make_unique.h
- * \author Sergey Tararay
- * \date   24.08.2013
+ *  @file   easy/stlex/make_unique.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
 #ifndef EASY_STLEX_MAKE_UNIQUE_INCLUDED_H
 #define EASY_STLEX_MAKE_UNIQUE_INCLUDED_H

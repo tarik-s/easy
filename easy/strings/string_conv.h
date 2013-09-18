@@ -1,9 +1,8 @@
 /*!
- * \file   easy/strings/string_conv.h
- * \author Sergey Tararay
- * \date   04.08.2013
+ *  @file   easy/strings/string_conv.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
 #ifndef EASY_STRINGS_STRING_CONV_H
 #define EASY_STRINGS_STRING_CONV_H

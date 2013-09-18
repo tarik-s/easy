@@ -19,7 +19,8 @@ namespace easy {
 namespace windows 
 {
 
-  enum class reg_hive : int {
+  enum class reg_hive 
+  {
     hkey_classes_root                = (int)HKEY_CLASSES_ROOT,
     hkey_current_user                = (int)HKEY_CURRENT_USER,
     hkey_local_machine               = (int)HKEY_LOCAL_MACHINE,

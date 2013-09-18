@@ -1,9 +1,8 @@
 /*!
- * \file   easy/type_traits.h
- * \author Sergey Tararay
- * \date   04.08.2013
+ *  @file   easy/stlex/type_traits.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
 #ifndef EASY_TYPE_TRAITS_H
 #define EASY_TYPE_TRAITS_H

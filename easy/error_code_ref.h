@@ -1,9 +1,8 @@
 /*!
-* \file   easy/error_code_ref.h
-* \author Sergey Tararay
-* \date   04.08.2013
+*  @file   easy/error_code_ref.h
+*  @author Sergey Tararay
+*  @date   2013
 *
-* FILE DESCRIPTION
 */
 #ifndef EASY_ERROR_CODE_REF_H_INCLUDED
 #define EASY_ERROR_CODE_REF_H_INCLUDED
@@ -12,13 +11,12 @@
 
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
+#include <easy/safe_bool.h>
 
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>
 #include <boost/type_traits/integral_constant.hpp>
 
-#include <easy/safe_bool.h>
-#include <easy/detail/error_code_ref_detail.h>
 
 namespace easy
 {
@@ -43,6 +41,33 @@ namespace easy
   };
 
   error_code make_error_code(generic_error e) EASY_NOEXCEPT;
+
+  namespace detail
+  {
+    class error_code_holder
+    {
+    public:
+      error_code_holder(error_code* ec) EASY_NOEXCEPT
+        : m_code(!ec ? m_own_code : *ec) {
+      }
+      ~error_code_holder() {
+        if (m_own_code) {
+          if (!std::uncaught_exception())
+            throw system_error(m_own_code);
+          EASY_ASSERT(!"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+      }
+      operator error_code& () EASY_NOEXCEPT {
+        return m_code;
+      }
+      operator error_code* () EASY_NOEXCEPT {
+        return &m_code;
+      }
+    private:
+      error_code m_own_code;
+      error_code& m_code;
+    };
+  }
 
   /*!
   * \class error_code_ref

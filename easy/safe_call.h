@@ -1,3 +1,8 @@
+/*!
+ *  @file   easy/safe_call.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
 #ifndef EASY_SAFE_CALL_H_INCLUDED
 #define EASY_SAFE_CALL_H_INCLUDED
 

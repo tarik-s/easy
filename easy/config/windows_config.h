@@ -1,6 +1,14 @@
+/*!
+ *  @file   easy/config/windows_config.h
+ *  @author Sergey Tararay
+ *  @date   2013
+ */
+#ifndef EASY_CONFIG_WINDOWS_CONFIG_H_INCLUDED
+#define EASY_CONFIG_WINDOWS_CONFIG_H_INCLUDED
+
 
 #ifndef EASY_CONFIG_H_INCLUDED
-#  error "You must not include this file directly."
+#  error "This is not intended to be included directly."
 #endif
 
 
@@ -26,3 +34,5 @@
 #pragma warning(error : 4715) // not all control paths return a value
 
 #pragma warning(disable : 4996) // 'function': was declared deprecated
+
+#endif

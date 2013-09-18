@@ -1,9 +1,7 @@
 /*!
- * \file   easy/scope.h
- * \author Sergey Tararay
- * \date   2013
- *
- * FILE DESCRIPTION
+ *  @file   easy/scope.h
+ *  @author Sergey Tararay
+ *  @date   2013
  */
 #ifndef EASY_SCOPE_H_INCLUDED
 #define EASY_SCOPE_H_INCLUDED

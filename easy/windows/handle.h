@@ -179,7 +179,7 @@ namespace windows
     }
 
     basic_handle& operator = (nullptr_t) EASY_NOEXCEPT {
-      reset();
+      reset_handle();
       return *this;
     }
 

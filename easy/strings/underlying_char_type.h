@@ -1,9 +1,8 @@
 /*!
- * \file   easy/strings/underlying_char_type.h
- * \author Sergey Tararay
- * \date   04.08.2013
+ *  @file   easy/strings/underlying_char_type.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
 #ifndef EASY_STRINGS_UNDERLYING_CHAR_TYPE_H_INCLUDED
 #define EASY_STRINGS_UNDERLYING_CHAR_TYPE_H_INCLUDED

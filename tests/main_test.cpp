@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE(MainEasyTest)
   shared_event sev2(event_type::manual, event_state::reset);
   sevt = sev2;
 
-  h.reset(HANDLE(23));
+  h.reset_handle(HANDLE(23));
 
   h = nullptr;
 

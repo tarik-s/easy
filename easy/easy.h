@@ -1,9 +1,8 @@
 /*!
- * \file   easy/easy.h
- * \author Sergey Tararay
- * \date   04.08.2013
+ *  @file   easy/easy.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
 #ifndef EASY_EASY_H_INCLUDED
 #define EASY_EASY_H_INCLUDED

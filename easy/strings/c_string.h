@@ -1,12 +1,11 @@
 /*!
- * \file   easy/strings/c_string.h
- * \author Sergey Tararay
- * \date   04.08.2013
+ *  @file   easy/strings/c_string.h
+ *  @author Sergey Tararay
+ *  @date   2013
  *
- * FILE DESCRIPTION
  */
-#ifndef EASY_C_STRING_H_INCLUDED
-#define EASY_C_STRING_H_INCLUDED
+#ifndef EASY_STRINGS_C_STRING_H_INCLUDED
+#define EASY_STRINGS_C_STRING_H_INCLUDED
 
 #include <easy/config.h>
 #include <easy/stlex/nullptr_t.h>
