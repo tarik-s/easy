@@ -8,18 +8,20 @@
 
 #include <easy/windows/config.h>
 
+#include <easy/safe_bool.h>
 #include <easy/strings.h>
 #include <easy/error_code_ref.h>
+#include <easy/range.h>
 
 #include <boost/noncopyable.hpp>
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/range/iterator_range.hpp>
-
-#include <map>
 
 namespace easy {
 namespace windows 
 {
+  /*!
+   *  @enum environment_variable_target
+   */ 
+
   enum class environment_variable_target
   {
     unknown,
@@ -28,74 +30,62 @@ namespace windows
     user
   };
   
+  /*!
+   *  @class environment_variable
+   */
+
   class environment_variable
+    : public easy::safe_bool<environment_variable>
   {
   public:
-    typedef environment_variable_target target;
-
     environment_variable() EASY_NOEXCEPT;
     environment_variable(environment_variable && v) EASY_NOEXCEPT;
     environment_variable(const c_wstring& _name, error_code_ref ec = nullptr);
 
     const std::wstring& get_name() const EASY_NOEXCEPT;
     const std::wstring& get_value() const EASY_NOEXCEPT;
+    bool set_value(const c_wstring& value, environment_variable_target target, error_code_ref ec = nullptr);
 
-    bool set_value(const c_wstring& _value, target _target, error_code_ref ec = nullptr);
-
-    bool operator !() const {
-      return m_name.empty();
-    }
+    bool operator !() const EASY_NOEXCEPT;
 
   private:
-    friend class environment_variable_iterator_impl;
-
-    environment_variable(std::wstring && _name, std::wstring && _value) EASY_NOEXCEPT;
-      
+    environment_variable(std::wstring && name, std::wstring && value) EASY_NOEXCEPT;
+    friend class internal_environment_factory;
   private:
     std::wstring m_name;
     std::wstring m_value;
   };
 
-  //////////////////////////////////////////////////////////////////////////
+  /*!
+   * @class environment_strings
+   */
 
-  class environment_variable_iterator
-    : public boost::iterator_facade<environment_variable_iterator
-      , const environment_variable, boost::forward_traversal_tag>
+  class environment_strings
+    : boost::noncopyable
   {
   public:
-    typedef environment_variable_target target;
+    environment_strings(error_code_ref ec = nullptr);
+    ~environment_strings() EASY_NOEXCEPT;
 
-    environment_variable_iterator() EASY_NOEXCEPT;
-    environment_variable_iterator(environment_variable_iterator && r) EASY_NOEXCEPT;
-    explicit environment_variable_iterator(target _target, error_code_ref ec = nullptr);
-    ~environment_variable_iterator() EASY_NOEXCEPT;
-
-    target get_target() const EASY_NOEXCEPT;
-
+    const wchar_t* data() const EASY_NOEXCEPT;
   private:
-    friend class boost::iterator_core_access;
-
-    void increment();
-    bool equal(const environment_variable_iterator& other) const EASY_NOEXCEPT;
-    const environment_variable& dereference() const;
-
-  private:
-    typedef std::shared_ptr<environment_variable_iterator_impl> impl_ptr;
-    impl_ptr m_pimpl;
+    wchar_t* m_pstr;
   };
 
-  typedef boost::iterator_range<environment_variable_iterator> 
-    environment_variable_range;
+  /*!
+   *  @class environment_variable_enumerator
+   */
 
-  //////////////////////////////////////////////////////////////////////////
+  class environment_variable_enumerator;
+  typedef std::shared_ptr<environment_variable_enumerator> environment_variable_enumerator_ptr;
 
-  namespace environment
+  class environment_variable_enumerator
+    : public enumerable<environment_variable> 
   {
-    typedef environment_variable_target target;
+  public:
+    static environment_variable_enumerator_ptr create(environment_variable_target target, error_code_ref ec = nullptr);
+  };  
 
-    static environment_variable_iterator enum_variables(target _target, error_code_ref ec = nullptr);
-    static environment_variable_range get_variables(target _target, error_code_ref ec = nullptr);
-  };
 }}
 
 #endif

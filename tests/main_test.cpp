@@ -25,28 +25,28 @@ BOOST_AUTO_TEST_CASE(MainEasyTest)
   shared_event sev2(event_type::manual, event_state::reset);
   sevt = sev2;
 
-  h.reset_handle(HANDLE(23));
+  h.reset_object(nullptr);
 
   h = nullptr;
 
-  reg_key key(reg_hive::hkcu, L"Software\\ABBYY");
+  reg_key key(reg_hive::hkcu, L"Software/ABBYY");
 
-  auto subkeys = key.keys();
+  auto subkeys = key.enum_keys();
 
-  for (const std::wstring& k : subkeys) {
-    reg_key _rk(key, k);
-    std::wcout << k << '\n';
+  while (auto k = subkeys->get_next()) {
+    reg_key _rk(key, *k);
+    std::wcout << *k << '\n';
   }
 
-  for (const std::wstring& k : subkeys) {
-    reg_key _rk(key, k);
-    std::wcout << k << '\n';
+  while (auto k = subkeys->get_next()) {
+    reg_key _rk(key, *k);
+    std::wcout << *k << '\n';
   }
 
-  easy::windows::environment_variable var(L"TempVariable");
+  //easy::windows::environment_variable var(L"TempVariable");
 
 
-//   for (auto v : easy::windows::environment::get_variables()) {
+//   for (auto v : environment::get_variables(environment_variable_target::process)) {
 //     std::wcout << v.get_name() << L"  " << v.get_value() << '\n';
 //   }
 

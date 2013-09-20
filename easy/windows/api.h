@@ -15,19 +15,25 @@
 #include <easy/safe_bool.h>
 #include <easy/range.h>
 
+#include <boost/filesystem/path.hpp>
+
 
 namespace easy {
 namespace windows {
 namespace api
 {
-  typedef HANDLE kernel_handle; 
+  //////////////////////////////////////////////////////////////////////////
+  // environment functions
 
-  static const kernel_handle invalid_kernel_handle = nullptr;
+  std::wstring get_environment_variable(const c_wstring& name, error_code_ref ec = nullptr);
 
   //////////////////////////////////////////////////////////////////////////
   // kernel handle functions
 
-  bool is_valid_kernel_handle(kernel_handle h) EASY_NOEXCEPT;
+  typedef HANDLE kernel_handle;
+  static const kernel_handle invalid_kernel_handle = nullptr;
+
+  bool is_kernel_handle_valid(kernel_handle h) EASY_NOEXCEPT;
   bool check_kernel_handle(kernel_handle h, error_code_ref ec = nullptr);
   bool close_handle(kernel_handle h, error_code_ref ec = nullptr);
 
@@ -105,10 +111,9 @@ namespace api
 
   typedef HMODULE dll_handle;
   typedef FARPROC raw_dll_function;
-
   static const dll_handle invalid_dll_handle = nullptr;
 
-  bool is_valid_dll_handle(dll_handle h) EASY_NOEXCEPT;
+  bool is_dll_handle_valid(dll_handle h) EASY_NOEXCEPT;
   bool check_dll_handle(dll_handle h, error_code_ref ec = nullptr);
 
   dll_handle load_library(const c_wstring& path, error_code_ref ec = nullptr);
@@ -116,6 +121,21 @@ namespace api
 
   raw_dll_function get_library_proc_address(dll_handle h, const c_string& name, error_code_ref ec = nullptr);
   std::wstring get_module_file_name(dll_handle h, error_code_ref ec = nullptr);
+
+
+  // registry functions
+
+  typedef HKEY reg_handle;  
+  typedef boost::filesystem::path reg_path;
+
+  static const reg_handle invalid_reg_handle = nullptr;
+
+
+  bool is_reg_handle_valid(reg_handle h) EASY_NOEXCEPT;
+  bool check_reg_handle(reg_handle h, error_code_ref ec = nullptr);
+
+  bool close_reg_key(reg_handle h, error_code_ref ec = nullptr);
+  bool delete_reg_key(reg_handle h, const reg_path& subkey, error_code_ref ec = nullptr);
 
 
 }}}

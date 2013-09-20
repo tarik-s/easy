@@ -9,9 +9,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="easy\detail">
-      <UniqueIdentifier>{165be093-c415-4a53-9a1a-32b8dc299878}</UniqueIdentifier>
-    </Filter>
     <Filter Include="easy\config">
       <UniqueIdentifier>{aa9222bf-5467-4686-92ac-762195450af0}</UniqueIdentifier>
     </Filter>
@@ -168,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\db\sqlite\config.h">
       <Filter>easy\db\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\object.h">
+      <Filter>easy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

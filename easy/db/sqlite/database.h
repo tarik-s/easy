@@ -49,7 +49,7 @@ namespace db {
       null_database    = -100,
       null_statement,
       // sqlite codes
-      ok = SQLITE_OK,
+      ok               = SQLITE_OK,
     };
 
     class error_category 

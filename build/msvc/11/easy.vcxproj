@@ -32,6 +32,7 @@
     <ClInclude Include="..\..\..\easy\easy.h" />
     <ClInclude Include="..\..\..\easy\error_code_ref.h" />
     <ClInclude Include="..\..\..\easy\flags.h" />
+    <ClInclude Include="..\..\..\easy\object.h" />
     <ClInclude Include="..\..\..\easy\range.h" />
     <ClInclude Include="..\..\..\easy\safe_bool.h" />
     <ClInclude Include="..\..\..\easy\safe_call.h" />

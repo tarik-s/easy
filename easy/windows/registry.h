@@ -11,18 +11,21 @@
 #include <easy/types.h>
 #include <easy/error_code_ref.h>
 #include <easy/strings.h>
+#include <easy/range.h>
+
+#include <boost/variant.hpp>
+#include <boost/filesystem/path.hpp>
 
 #include <vector>
-
-#include <boost/iterator/iterator_facade.hpp>
-#include <boost/range/iterator_range.hpp>
-#include <boost/variant.hpp>
 
 #include <Windows.h>
 
 namespace easy {
 namespace windows 
 {
+  /*!
+   * @enum reg_hive
+   */
 
   enum class reg_hive 
   {
@@ -42,7 +45,11 @@ namespace windows
     hklm = hkey_local_machine,
   };
 
-  enum class reg_value_type 
+  /*!
+   * @enum reg_value_type
+   */
+
+  enum class reg_value_type
   {
     none = -1,
     int_,
@@ -62,6 +69,10 @@ namespace windows
     qword               = REG_QWORD,  
     */
   };
+
+  /*!
+   * @type reg_value
+   */
 
   typedef boost::variant<
     int,
@@ -118,39 +129,34 @@ namespace windows
     reg_option option;
     reg_open_mode open_mode;
   };
-    
-  class reg_key;
 
-  class reg_key_iterator
-    : public boost::iterator_facade<reg_key_iterator, const std::wstring, boost::forward_traversal_tag>
+  /*!
+   * @class reg_item
+   */
+
+  class reg_item
   {
   public:
-    reg_key_iterator() EASY_NOEXCEPT;
-    reg_key_iterator(reg_key_iterator && r) EASY_NOEXCEPT;
-    explicit reg_key_iterator(const reg_key& key, error_code_ref ec = nullptr);
-    ~reg_key_iterator() EASY_NOEXCEPT;
-
+    const std::wstring& get_name() const;
+    const reg_value& get_value() const;
   private:
-    friend class boost::iterator_core_access;
-    friend class reg_key_enum_impl;
-    void increment();
-    bool equal(const reg_key_iterator& other) const EASY_NOEXCEPT;
-    const std::wstring& dereference() const;
-
-  private:
-    typedef std::shared_ptr<reg_key_enum_impl> impl_ptr;
-    impl_ptr m_pimpl;
   };
 
-  class reg_value_iterator
-  {
-  public:
+  class reg_key_enumerator : public enumerable<std::wstring> { };
+  typedef std::shared_ptr<reg_key_enumerator> reg_key_enumerator_ptr;
 
-  private:
+  class reg_item_enumerator : public enumerable<reg_item> { };
+  typedef std::shared_ptr<reg_item_enumerator> reg_item_enumerator_ptr;
 
-  };
+  /*!
+   * @typedef reg_path
+   */
 
-  typedef boost::iterator_range<reg_key_iterator> reg_key_iterator_range;
+  typedef boost::filesystem::path reg_path;
+
+  /*!
+   * @class reg_key
+   */
 
   class reg_key
     : boost::noncopyable
@@ -166,8 +172,8 @@ namespace windows
     reg_key& operator = (reg_key && r) EASY_NOEXCEPT;
 
     // constructors
-    reg_key(reg_hive h, const c_wstring& subkey, const reg_open_options& options = reg_open_options(), error_code_ref ec = nullptr);
-    reg_key(const reg_key& key, const c_wstring& subkey, const reg_open_options& options = reg_open_options(), error_code_ref ec = nullptr);
+    reg_key(reg_hive h, const reg_path& subkey, const reg_open_options& options = reg_open_options(), error_code_ref ec = nullptr);
+    reg_key(const reg_key& key, const reg_path& subkey, const reg_open_options& options = reg_open_options(), error_code_ref ec = nullptr);
 
     // destructors
     ~reg_key() EASY_NOEXCEPT;
@@ -181,10 +187,10 @@ namespace windows
     static bool delete_key(reg_hive h, const c_wstring& subkey, error_code_ref ec = nullptr);
 
     // enumerators
-    reg_key_iterator enum_keys(error_code_ref ec = nullptr) const;
-    reg_key_iterator_range keys(error_code_ref ec = nullptr) const;
+    reg_key_enumerator_ptr enum_keys(error_code_ref ec = nullptr) const;
+
   private:
-    reg_key(HKEY key, const c_wstring& subkey, const reg_open_options& options, error_code_ref ec, void* dummy);
+    reg_key(HKEY key, const reg_path& subkey, const reg_open_options& options, error_code_ref ec, void* dummy);
 
   private:
     HKEY m_key;

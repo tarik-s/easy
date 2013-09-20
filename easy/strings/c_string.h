@@ -76,6 +76,10 @@ namespace easy
       : m_str(size > 0 ? pstr : nullptr, size) {
     }
 
+    basic_c_string(const_iterator begin, const_iterator end) EASY_NOEXCEPT
+      : m_str(begin, end) {
+    }
+
     template<class TStr>
     basic_c_string(const TStr& str, 
       typename boost::enable_if<
@@ -158,6 +162,15 @@ namespace easy
     struct sized_str {
       sized_str(const char_type* pstr = nullptr, size_t size = 0) 
         : pstr(pstr), size(size) {
+      }
+      sized_str(const char_type* begin, const char_type* end)
+        : pstr(), size()
+      {
+        EASY_ASSERT(begin <= end);
+        if (begin < end) {
+          pstr = begin;
+          size = end - begin;
+        }
       }
       char_type const* pstr;
       size_type size;

@@ -13,6 +13,7 @@
 #include <easy/safe_bool.h>
 #include <easy/stlex/nullptr_t.h>
 #include <easy/types.h>
+#include <easy/object.h>
 
 #include <memory>
 #include <array>
@@ -23,11 +24,12 @@
 namespace easy {
 namespace windows
 {
-  struct shared_tag { };
-  struct scoped_tag { };
+//   struct shared_tag { };
+//   struct scoped_tag { };
+
   struct waitable_tag { };
   //////////////////////////////////////////////////////////////////////////
-
+/*
   template<class Traits>
   class scoped_handle_holder
     : protected Traits
@@ -192,20 +194,20 @@ namespace windows
       swap_impl(r);
     }
   };
-
+*/
   //////////////////////////////////////////////////////////////////////////
 
   struct kernel_object_handle_traits
   {
-    typedef api::kernel_handle handle_type;
+    typedef api::kernel_handle object_type;
 
-    static handle_type get_invalid_handle() EASY_NOEXCEPT {
+    static object_type get_invalid_object() EASY_NOEXCEPT {
       return api::invalid_kernel_handle;
     }
-    static bool is_valid(handle_type h) EASY_NOEXCEPT {
-      return api::is_valid_kernel_handle(h);
+    static bool is_valid(object_type h) EASY_NOEXCEPT {
+      return api::is_kernel_handle_valid(h);
     }
-    static bool close_handle(handle_type h, error_code_ref ec = nullptr) {
+    static bool close_object(object_type h, error_code_ref ec = nullptr) {
       return api::close_handle(h, ec);
     }
   };
@@ -222,12 +224,12 @@ namespace windows
 
   template<class T>
   wait_result wait(const T& v, error_code_ref ec = nullptr) {
-    return api::wait(v.get_handle(), ec);
+    return api::wait(v.get_object(), ec);
   }
 
   template<class T>
   wait_result wait_timed(const T& v, wait_timeout timeout, error_code_ref ec = nullptr) {
-    return api::wait_timed(v.get_handle(), timeout, ec);
+    return api::wait_timed(v.get_object(), timeout, ec);
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -238,22 +240,22 @@ namespace windows
   template<template<class Traits> class Holder>
   class event_impl
     : public Holder<kernel_object_handle_traits>
-    , waitable_tag
+    , public waitable_tag
   {
   public:
-    typedef api::kernel_handle handle_type;
+    typedef api::kernel_handle object_type;
 
     bool set(error_code_ref ec = nullptr) {
-      return api::set_event(get_handle(), ec);
+      return api::set_event(get_object(), ec);
     }
 
     bool reset(error_code_ref ec = nullptr) {
-      return api::reset_event(get_handle(), ec);
+      return api::reset_event(get_object(), ec);
     }
   protected:
     ~event_impl() { }
 
-    static handle_type construct(event_type et, event_state es, error_code_ref ec) {
+    static object_type construct(event_type et, event_state es, error_code_ref ec) {
       return api::create_event(et, es, ec);
     }
   };
@@ -269,20 +271,20 @@ namespace windows
     , public waitable_tag
   {
   public:
-    typedef api::kernel_handle handle_type;
+    typedef api::kernel_handle object_type;
 
     process_id get_id(error_code_ref ec = nullptr) const {
-      return api::get_process_id(get_handle(), ec);
+      return api::get_process_id(get_object(), ec);
     }
 
     process_exit_code get_exit_code(error_code_ref ec = nullptr) {
-      return get_process_exit_code(get_handle(), ec);
+      return get_process_exit_code(get_object(), ec);
     }
     
   protected:
     ~process_impl() { }
 
-    static handle_type construct(uint pid, error_code_ref ec) {
+    static object_type construct(uint pid, error_code_ref ec) {
       return api::open_process(pid, ec);
     }
   };
@@ -291,19 +293,19 @@ namespace windows
 
   struct dynamic_library_handle_traits
   {
-    typedef api::dll_handle handle_type;
+    typedef api::dll_handle object_type;
     typedef FARPROC raw_function_type;
 
-    static const handle_type get_invalid_handle() {
+    static object_type get_invalid_object() {
       return api::invalid_dll_handle;
     }
 
-    static bool is_valid(handle_type h) EASY_NOEXCEPT {
-      return api::is_valid_dll_handle(h);
+    static bool is_valid(object_type obj) EASY_NOEXCEPT {
+      return api::is_dll_handle_valid(obj);
     }
 
-    static bool close_handle(handle_type h, error_code_ref ec = nullptr) {
-      return api::free_library(h, ec);
+    static bool close_object(object_type obj, error_code_ref ec = nullptr) {
+      return api::free_library(obj, ec);
     }
   };
 
@@ -312,15 +314,15 @@ namespace windows
     : public Holder<dynamic_library_handle_traits>
   {
   public:
-    typedef dynamic_library_handle_traits::handle_type       handle_type;
+    typedef dynamic_library_handle_traits::object_type       object_type;
     typedef dynamic_library_handle_traits::raw_function_type raw_function_type;
 
     std::wstring get_file_path(error_code_ref ec = nullptr) const {
-      return api::get_module_file_name(get_handle(), ec);
+      return api::get_module_file_name(get_object(), ec);
     }
 
     raw_function_type get_proc_address(const c_string& name, error_code_ref ec = nullptr) const {
-      return api::get_library_proc_address(get_handle(), name, ec);
+      return api::get_library_proc_address(get_object(), name, ec);
     }
 
     template<class Function>
@@ -331,22 +333,22 @@ namespace windows
   protected:
     ~dynamic_library_impl() { }
 
-    static handle_type construct(const c_wstring& path, error_code_ref ec) {
+    static object_type construct(const c_wstring& path, error_code_ref ec) {
       return api::load_library(path, ec);
     }
   };
   //////////////////////////////////////////////////////////////////////////
 
-  typedef basic_handle<kernel_handle_impl<scoped_handle_holder>>  scoped_handle;
-  typedef basic_handle<kernel_handle_impl<shared_handle_holder>>  shared_handle;
+  typedef basic_object<kernel_handle_impl<scoped_object_holder>>  scoped_handle;
+  typedef basic_object<kernel_handle_impl<shared_object_holder>>  shared_handle;
 
-  typedef basic_handle<event_impl<scoped_handle_holder>> scoped_event;
-  typedef basic_handle<event_impl<shared_handle_holder>> shared_event;
+  typedef basic_object<event_impl<scoped_object_holder>> scoped_event;
+  typedef basic_object<event_impl<shared_object_holder>> shared_event;
 
-  typedef basic_handle<process_impl<scoped_handle_holder>> scoped_process;
-  typedef basic_handle<process_impl<shared_handle_holder>> shared_process;
+  typedef basic_object<process_impl<scoped_object_holder>> scoped_process;
+  typedef basic_object<process_impl<shared_object_holder>> shared_process;
 
-  typedef basic_handle<dynamic_library_impl<scoped_handle_holder>> scoped_dynamic_library;
+  typedef basic_object<dynamic_library_impl<scoped_object_holder>> scoped_dynamic_library;
   
 
 }}

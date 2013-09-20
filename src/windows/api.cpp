@@ -10,16 +10,51 @@ namespace easy {
 namespace windows {
 namespace api 
 {
+
+  /*
+    bool get_env_var(const c_wstring& name, std::wstring& value, error_code_ref ec) 
+    {
+      if (value.empty())
+        value.resize(256);
+
+      DWORD len = ::GetEnvironmentVariableW(name.c_str(), &value[0], value.size());
+      if (len > 0) {
+        bool ok = len <= value.size();
+        value.resize(len);        
+        return ok ? true : get_env_var(name, value, ec);
+      }
+      ec = make_last_win_error();
+      return false;
+    }
+  */
+
+  std::wstring get_environment_variable(const c_wstring& name, error_code_ref ec)
+  {
+    if (name.empty()) {
+      ec = generic_error::invalid_value;
+      return std::wstring();
+    }
+    std::wstring result(64, wchar_t());
+    while (DWORD len = ::GetEnvironmentVariableW(name.c_str(), &result[0], result.size())) {
+      bool ok = len <= result.size();
+      result.resize(len);
+      if (ok)
+        return result;
+    }
+    ec = make_last_win_error();
+    return std::wstring();
+  }
+
   //////////////////////////////////////////////////////////////////////////
 
-  bool is_valid_kernel_handle(kernel_handle h)
+  bool is_kernel_handle_valid(kernel_handle h)
   {
     return h != invalid_kernel_handle && h != INVALID_HANDLE_VALUE;
   }
 
   bool check_kernel_handle(kernel_handle h, error_code_ref ec)
   {
-    if (!is_valid_kernel_handle(h)) {
+    if (!is_kernel_handle_valid(h)) {
       ec = make_win_error(ERROR_INVALID_HANDLE);
       return false;
     }
@@ -28,7 +63,7 @@ namespace api
 
   bool close_handle(kernel_handle h, error_code_ref ec)
   {
-    if (is_valid_kernel_handle(h)) {
+    if (is_kernel_handle_valid(h)) {
       if (!::CloseHandle(h))
         ec = make_last_win_error();
     }
@@ -121,14 +156,14 @@ namespace api
   
   //////////////////////////////////////////////////////////////////////////
 
-  bool is_valid_dll_handle(dll_handle h)
+  bool is_dll_handle_valid(dll_handle h)
   {
     return h != invalid_dll_handle;
   }
 
   bool check_dll_handle(dll_handle h, error_code_ref ec)
   {
-    if (!is_valid_dll_handle(h)) {
+    if (!is_dll_handle_valid(h)) {
       ec = make_win_error(ERROR_INVALID_HANDLE);
       return false;
     }
@@ -138,14 +173,14 @@ namespace api
   dll_handle load_library(const c_wstring& path, error_code_ref ec)
   {
     dll_handle h = ::LoadLibraryW(path.c_str());
-    if (!is_valid_dll_handle(h))
+    if (!is_dll_handle_valid(h))
       ec = make_last_win_error();
     return h;
   }
 
   bool free_library(dll_handle h, error_code_ref ec)
   {
-    if (is_valid_dll_handle(h)) {
+    if (is_dll_handle_valid(h)) {
       if (!::FreeLibrary(h)) {
         ec = make_last_win_error();
         return false;
@@ -202,6 +237,43 @@ namespace api
       ec = make_last_win_error();
     return res;
   }
+
+  //////////////////////////////////////////////////////////////////////////
+
+  bool is_reg_handle_valid(reg_handle h)
+  {
+    return h != invalid_reg_handle;
+  }
+
+  bool check_reg_handle(reg_handle h, error_code_ref ec)
+  {
+    if (!is_reg_handle_valid(h)) {
+      ec = make_win_error(ERROR_INVALID_HANDLE);
+      return false;
+    }
+    return true;
+  }
+
+  bool close_reg_key(reg_handle h, error_code_ref ec)
+  {
+    if (!check_reg_handle(h, ec))
+      return false;
+
+    LSTATUS res = ::RegCloseKey(h);
+    ec = make_win_error(res);
+    return !ec;
+  }
+
+  bool delete_reg_key(reg_handle h, const reg_path& subkey, error_code_ref ec)
+  {
+    if (!check_reg_handle(h, ec))
+      return false;
+
+    LONG res = ::RegDeleteKeyW(h, reg_path(subkey).make_preferred().c_str());
+    ec = make_win_error(res);
+    return !ec;
+  }
+
 
 
 }}}

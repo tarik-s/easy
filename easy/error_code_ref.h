@@ -24,13 +24,20 @@ namespace easy
   using boost::system::system_error;
   using boost::system::error_category;
 
-  //! generic_error
+  /*!
+   *  @enum generic_error
+   */
+
   enum class generic_error
   {
     ok               = 0,
     null_ptr,
     invalid_value
   };
+
+  /*!
+   * @class generic_error_category
+   */
 
   class generic_error_category
     : public error_category
@@ -39,6 +46,10 @@ namespace easy
     const char* name() const EASY_NOEXCEPT;
     std::string message(int ev) const EASY_FINAL;
   };
+
+  /*!
+   * @function make_error_code
+   */
 
   error_code make_error_code(generic_error e) EASY_NOEXCEPT;
 
@@ -70,10 +81,10 @@ namespace easy
   }
 
   /*!
-  * \class error_code_ref
-  * \headerfile error_code_ref.h <easy/error_code_ref.h>
-  * \brief error_code_ref class that is used to indicate conversion errors
-  */
+   * @class error_code_ref
+   * @brief error_code_ref class that is used to indicate errors
+   */
+
   class error_code_ref
     : public safe_bool<error_code_ref>
   {
