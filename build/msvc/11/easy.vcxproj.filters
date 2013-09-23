@@ -42,6 +42,9 @@
     <Filter Include="src\windows">
       <UniqueIdentifier>{02607545-0cb3-47b3-94f6-59a7cd63f062}</UniqueIdentifier>
     </Filter>
+    <Filter Include="easy\windows\api">
+      <UniqueIdentifier>{133e94bb-51bd-4599-aced-54beed55bc3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\object.h">
       <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\api\registry_api.h">
+      <Filter>easy\windows\api</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

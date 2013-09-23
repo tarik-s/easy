@@ -8,14 +8,12 @@
 
 #include <easy/windows/config.h>
 
-#include <Windows.h>
+#include <easy/windows/api/registry_api.h>
 
 #include <easy/error_code_ref.h>
 #include <easy/strings.h>
 #include <easy/safe_bool.h>
 #include <easy/range.h>
-
-#include <boost/filesystem/path.hpp>
 
 
 namespace easy {
@@ -89,7 +87,16 @@ namespace api
   
   
   // event
+  /*!
+   * @enum event_type
+   */
+
   enum class event_type  { auto_, manual };
+
+  /*!
+   * @enum event_state
+   */
+
   enum class event_state { set, reset };
 
   kernel_handle create_event(event_type et, event_state es, error_code_ref ec = nullptr);
@@ -121,21 +128,6 @@ namespace api
 
   raw_dll_function get_library_proc_address(dll_handle h, const c_string& name, error_code_ref ec = nullptr);
   std::wstring get_module_file_name(dll_handle h, error_code_ref ec = nullptr);
-
-
-  // registry functions
-
-  typedef HKEY reg_handle;  
-  typedef boost::filesystem::path reg_path;
-
-  static const reg_handle invalid_reg_handle = nullptr;
-
-
-  bool is_reg_handle_valid(reg_handle h) EASY_NOEXCEPT;
-  bool check_reg_handle(reg_handle h, error_code_ref ec = nullptr);
-
-  bool close_reg_key(reg_handle h, error_code_ref ec = nullptr);
-  bool delete_reg_key(reg_handle h, const reg_path& subkey, error_code_ref ec = nullptr);
 
 
 }}}

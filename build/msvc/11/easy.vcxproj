@@ -47,6 +47,7 @@
     <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
     <ClInclude Include="..\..\..\easy\types.h" />
     <ClInclude Include="..\..\..\easy\windows\api.h" />
+    <ClInclude Include="..\..\..\easy\windows\api\registry_api.h" />
     <ClInclude Include="..\..\..\easy\windows\config.h" />
     <ClInclude Include="..\..\..\easy\windows\environment.h" />
     <ClInclude Include="..\..\..\easy\windows\error.h" />

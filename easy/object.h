@@ -18,25 +18,13 @@
 
 namespace easy
 {
-  /*!
-   * @struct scoped_tag
-   *
-   */
-
+  //! scoped_tag
   struct scoped_tag { };
 
-  /*!
-   * @struct shared_tag
-   *
-   */
-
+  //! shared_tag
   struct shared_tag { };
   
-  /*!
-   * @class scoped_object_holder
-   *
-   */
-
+  //! scoped_object_holder
   template<class Traits>
   class scoped_object_holder
     : boost::noncopyable
@@ -44,7 +32,20 @@ namespace easy
   {
   public:
     typedef Traits                            traits_type;
-    typedef typename traits_type::object_type object_type;  
+    typedef typename traits_type::object_type object_type;
+
+    class tracker
+    {
+    public:
+      tracker(const scoped_object_holder& obj)
+        : m_obj(obj) {
+      }
+      object_type get() const {
+        return m_obj.get_object();
+      }
+    private:
+      const scoped_object_holder& m_obj;
+    };
 
     explicit scoped_object_holder(object_type obj = traits_type::get_invalid_object()) EASY_NOEXCEPT
       : m_obj(obj) {
@@ -85,11 +86,7 @@ namespace easy
     object_type m_obj;
   };
 
-  /*!
-   * @class shared_object_holder
-   *
-   */
-
+  //! shared_object_holder
   template<class Traits>
   class shared_object_holder
     : public shared_tag
@@ -97,6 +94,19 @@ namespace easy
   public:
     typedef Traits                            traits_type;
     typedef typename traits_type::object_type object_type;  
+
+    class tracker
+    {
+    public:
+      tracker(const shared_object_holder& obj)
+        : m_obj(obj) {
+      }
+      object_type get() const {
+        return m_obj.get_object();
+      }
+    private:
+      const shared_object_holder& m_obj;
+    };
 
     explicit shared_object_holder(object_type obj = traits_type::get_invalid_object())
     {
@@ -131,11 +141,7 @@ namespace easy
     holder_ptr m_impl;
   };
 
-  /*!
-   * @class basic_object
-   *
-   */
-
+  //! basic_object
   template<class Impl>
   class basic_object
     : public Impl
@@ -185,6 +191,18 @@ namespace easy
         std::forward<A3>(a3),
         ec));
     }
+
+    template<class A1, class A2, class A3, class A4>
+    basic_object(A1 && a1, A2 && a2, A3 && a3, A4 && a4, error_code_ref ec = nullptr)
+    {
+      reset_object(base::construct(
+        std::forward<A1>(a1),
+        std::forward<A2>(a2),
+        std::forward<A3>(a3),
+        std::forward<A4>(a4),
+        ec));
+    }
+
 
     basic_object(this_type && r) EASY_NOEXCEPT
     {

@@ -15,13 +15,21 @@
 
 namespace easy
 {
+
+  /*!
+   * @class safe_bool
+   * @brief workaround to eliminate pitfalls of operator bool
+   */
+
   template <typename Derived> 
   class safe_bool
   {
     void true_type() { }
   public:
+    /// explicit_bool 
     typedef void (safe_bool<Derived>::*explicit_bool) ();
 
+    /// default operator explicit_bool 
     operator explicit_bool() const {
       return static_cast<const Derived*>(this)->operator!() ? nullptr : explicit_true();
     }

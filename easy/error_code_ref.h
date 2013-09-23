@@ -2,7 +2,6 @@
 *  @file   easy/error_code_ref.h
 *  @author Sergey Tararay
 *  @date   2013
-*
 */
 #ifndef EASY_ERROR_CODE_REF_H_INCLUDED
 #define EASY_ERROR_CODE_REF_H_INCLUDED
@@ -20,25 +19,20 @@
 
 namespace easy
 {
+  //! Important usings from boost
   using boost::system::error_code;
   using boost::system::system_error;
   using boost::system::error_category;
 
-  /*!
-   *  @enum generic_error
-   */
-
+  //! generic errors we meet on every step
   enum class generic_error
   {
-    ok               = 0,
-    null_ptr,
-    invalid_value
+    ok = 0        ,  /*!< all is OK */
+    null_ptr      ,  /*!< null ptr */
+    invalid_value    /*!< invalid value */
   };
 
-  /*!
-   * @class generic_error_category
-   */
-
+  //! Error category which describes generic errors
   class generic_error_category
     : public error_category
   {
@@ -47,10 +41,7 @@ namespace easy
     std::string message(int ev) const EASY_FINAL;
   };
 
-  /*!
-   * @function make_error_code
-   */
-
+  //! Creates error_code object from enum value
   error_code make_error_code(generic_error e) EASY_NOEXCEPT;
 
   namespace detail
@@ -80,11 +71,7 @@ namespace easy
     };
   }
 
-  /*!
-   * @class error_code_ref
-   * @brief error_code_ref class that is used to indicate errors
-   */
-
+  //! Class is used to hold error codes
   class error_code_ref
     : public safe_bool<error_code_ref>
   {
@@ -93,16 +80,12 @@ namespace easy
     error_code_ref& operator=(const error_code_ref&);    
   public:
 
-    /*!
-    * Default constructor
-    */
+    //! Initializes throwable
     error_code_ref() EASY_NOEXCEPT
       : m_pcode(nullptr) {
     }
 
-    /*!
-    * Constructor which creates throwable error_code_ref
-    */
+    //! Initializes throwable
     error_code_ref(nullptr_t) EASY_NOEXCEPT
       : m_pcode(nullptr) {
     }
@@ -131,9 +114,6 @@ namespace easy
         clear();
     }
 
-    //!
-    //! Assignment .................
-    //!
     error_code_ref& operator = (const error_code& ec) {
       if (!m_pcode) {
         if (ec)
@@ -144,17 +124,11 @@ namespace easy
       return *this;
     }
 
-    //!
-    //! Assignment .................
-    //!
     template<class CodeT>
     error_code_ref& operator = (const CodeT& code) {
       return (*this = error_code(code));
     }
 
-    //!
-    //! assign code 
-    //!
     void assign(int code, const error_category& cat) {
       *this = error_code(code, cat);
     }

@@ -1,5 +1,5 @@
 /*!
- *  @file   easy/db/congih.h
+ *  @file   easy/db/config.h
  *  @author Sergey Tararay
  *  @date   2013
  */
