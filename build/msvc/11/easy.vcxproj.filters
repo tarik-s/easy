@@ -121,12 +121,6 @@
     <ClInclude Include="..\..\..\easy\windows\error.h">
       <Filter>easy\windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h">
-      <Filter>easy\strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\stlex\type_traits.h">
-      <Filter>easy\stlex</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\easy\range.h">
       <Filter>easy</Filter>
     </ClInclude>
@@ -180,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\stlex\stlex.h">
       <Filter>easy\stlex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\type_traits.h">
+      <Filter>easy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

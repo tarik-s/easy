@@ -42,13 +42,12 @@
     <ClInclude Include="..\..\..\easy\stlex\make_unique.h" />
     <ClInclude Include="..\..\..\easy\stlex\nullptr_t.h" />
     <ClInclude Include="..\..\..\easy\stlex\stlex.h" />
-    <ClInclude Include="..\..\..\easy\stlex\type_traits.h" />
     <ClInclude Include="..\..\..\easy\streams.h" />
     <ClInclude Include="..\..\..\easy\strings.h" />
     <ClInclude Include="..\..\..\easy\strings\lite_string.h" />
-    <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h" />
     <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
     <ClInclude Include="..\..\..\easy\types.h" />
+    <ClInclude Include="..\..\..\easy\type_traits.h" />
     <ClInclude Include="..\..\..\easy\windows\api.h" />
     <ClInclude Include="..\..\..\easy\windows\config.h" />
     <ClInclude Include="..\..\..\easy\windows\dynamic_library.h" />

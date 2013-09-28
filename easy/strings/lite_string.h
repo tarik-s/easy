@@ -8,15 +8,15 @@
 #define EASY_STRINGS_C_STRING_H_INCLUDED
 
 #include <easy/config.h>
+
 #include <easy/stlex/nullptr_t.h>
-#include <easy/strings/underlying_char_type.h>
 #include <easy/safe_bool.h>
+#include <easy/type_traits.h>
 
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_same.hpp>
 #include <boost/type_traits/remove_cv.hpp>
 #include <boost/mpl/and.hpp>
-
 #include <boost/noncopyable.hpp>
 
 #include <memory>

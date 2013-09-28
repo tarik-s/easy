@@ -1,18 +1,30 @@
 /*!
- *  @file   easy/strings/underlying_char_type.h
+ *  @file   easy/types.h
  *  @author Sergey Tararay
  *  @date   2013
- *
  */
-#ifndef EASY_STRINGS_UNDERLYING_CHAR_TYPE_H_INCLUDED
-#define EASY_STRINGS_UNDERLYING_CHAR_TYPE_H_INCLUDED
+#ifndef EASY_TYPE_TRAITS_H_INCLUDED
+#define EASY_TYPE_TRAITS_H_INCLUDED
 
 #include <easy/config.h>
+#include <type_traits>
 
 #include <string>
 
 namespace easy
 {
+  //! underlying_type
+  template<class T>
+  struct underlying_type
+#ifdef EASY_HAS_UNDERLYING_TYPE
+    : std::underlying_type<T> 
+#else
+    : std::enable_if<true, int>
+#endif
+  {
+  };
+  
+  //! underlying_char_type
   template<class T>
   struct underlying_char_type {
     //typedef void type;
@@ -38,6 +50,8 @@ namespace easy
   template<>
   struct underlying_char_type<std::wstring> { typedef wchar_t type; };
 #endif
+
 }
+
 
 #endif

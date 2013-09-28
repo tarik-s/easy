@@ -9,6 +9,5 @@
 
 #include <easy/stlex/nullptr_t.h>
 #include <easy/stlex/make_unique.h>
-#include <easy/stlex/type_traits.h>
 
 #endif

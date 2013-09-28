@@ -7,7 +7,7 @@
 #define EASY_FLAGS_H_INCLUDED
 
 #include <easy/config.h>
-#include <easy/stlex/type_traits.h>
+#include <easy/type_traits.h>
 #include <easy/stlex/nullptr_t.h>
 
 #include <boost/type_traits.hpp>

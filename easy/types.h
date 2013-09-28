@@ -32,8 +32,6 @@ namespace easy
   typedef std::vector<std::string> string_list;
   typedef std::vector<std::wstring> wstring_list;
 
-
-  
 }
 
 #endif
