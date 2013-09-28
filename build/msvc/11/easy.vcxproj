@@ -15,6 +15,7 @@
     <ClCompile Include="..\..\..\src\error_handling.cpp" />
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp" />
     <ClCompile Include="..\..\..\src\windows\api.cpp" />
+    <ClCompile Include="..\..\..\src\windows\com\base.cpp" />
     <ClCompile Include="..\..\..\src\windows\dynamic_library.cpp" />
     <ClCompile Include="..\..\..\src\windows\environment.cpp" />
     <ClCompile Include="..\..\..\src\windows\synchronization.cpp" />
@@ -49,6 +50,9 @@
     <ClInclude Include="..\..\..\easy\types.h" />
     <ClInclude Include="..\..\..\easy\type_traits.h" />
     <ClInclude Include="..\..\..\easy\windows\api.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\base.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\com.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\config.h" />
     <ClInclude Include="..\..\..\easy\windows\config.h" />
     <ClInclude Include="..\..\..\easy\windows\dynamic_library.h" />
     <ClInclude Include="..\..\..\easy\windows\environment.h" />

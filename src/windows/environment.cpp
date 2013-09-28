@@ -10,7 +10,7 @@
 
 #include <boost/algorithm/string/split.hpp>
 
-#include <windows.h>
+#include <Windows.h>
 #include <array>
 
 namespace easy {

@@ -42,6 +42,12 @@
     <Filter Include="src\windows">
       <UniqueIdentifier>{02607545-0cb3-47b3-94f6-59a7cd63f062}</UniqueIdentifier>
     </Filter>
+    <Filter Include="easy\windows\com">
+      <UniqueIdentifier>{b1a4ba12-aa54-4bcd-9d3d-831aa5ef8e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\windows\com">
+      <UniqueIdentifier>{22ed9237-a679-4e2d-a683-cfbbb931a6a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp">
@@ -67,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\error_handling.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\com\base.cpp">
+      <Filter>src\windows\com</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +186,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\type_traits.h">
       <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\com.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\config.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\base.h">
+      <Filter>easy\windows\com</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
