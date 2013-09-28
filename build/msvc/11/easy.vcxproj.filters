@@ -59,11 +59,14 @@
     <ClCompile Include="..\..\..\src\windows\environment.cpp">
       <Filter>src\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\error_code_ref.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\windows\api.cpp">
       <Filter>src\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\dynamic_library.cpp">
+      <Filter>src\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\error_handling.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +74,6 @@
       <Filter>easy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\easy.h">
-      <Filter>easy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\error_code_ref.h">
       <Filter>easy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\flags.h">
@@ -171,6 +171,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\strings\lite_string.h">
       <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\dynamic_library.h">
+      <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\error_handling.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\stlex\stlex.h">
+      <Filter>easy\stlex</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

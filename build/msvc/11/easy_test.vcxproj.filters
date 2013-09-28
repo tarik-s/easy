@@ -14,9 +14,6 @@
     <ClCompile Include="..\..\..\tests\main_test.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\tests\error_code_ref_test.cpp">
-      <Filter>tests</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\tests\flags_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
@@ -27,6 +24,9 @@
       <Filter>tests</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\SDK\sqlite\sqlite3.c">
+      <Filter>tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\tests\error_handling_test.cpp">
       <Filter>tests</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,10 +1,10 @@
-
 #include <easy/windows/registry.h>
 
-#include <easy/strings/string_conv.h>
 #include <easy/windows/error.h>
+#include <easy/windows/dynamic_library.h>
 
 #include <easy/stlex/make_unique.h>
+#include <easy/strings/string_conv.h>
 
 #include <vector>
 #include <array>
@@ -327,8 +327,8 @@ namespace windows
       reg_value_kind kind = static_cast<reg_value_kind>(value.which());
       if (!is_any_of(kind, 
         reg_value_kind::dword, reg_value_kind::qword,
-        reg_value_kind::string, reg_value_kind::expand_string,
-        reg_value_kind::multi_string, reg_value_kind::binary
+        reg_value_kind::string, reg_value_kind::multi_string, 
+        reg_value_kind::binary
         ))
         kind = reg_value_kind::unknown;
       return set_reg_value(h, name, kind, value, ec);
@@ -384,8 +384,10 @@ namespace windows
           }
         }
 
-        if (res != ERROR_SUCCESS) {
-          ec = make_win_error(res);
+        if (res != ERROR_SUCCESS) 
+        {
+          if (res != ERROR_FILE_NOT_FOUND) // it value doesn't exist it's not an error
+            ec = make_win_error(res);
           return reg_value();
         }
 
@@ -393,7 +395,7 @@ namespace windows
         break;
       }
 
-      // We've successfully gotten the value, try to convert it
+      // We've successfully gotten a raw value, try to convert it
       const reg_value_kind kind = reg_value_kind_from_winapi_type(type);
       switch (kind)
       {
@@ -454,20 +456,64 @@ namespace windows
 
     reg_item_enumerator enum_reg_sub_keys(reg_key_handle key, error_code_ref ec)
     {
+      EASY_ASSERT(!"Not implemented");
       return nullptr;
     }
 
     reg_item_enumerator enum_reg_values(reg_key_handle key, error_code_ref ec)
     {
+      EASY_ASSERT(!"Not implemented");
       return nullptr;
     }
 
+    std::wstring get_reg_key_name(reg_key_handle h, error_code_ref ec)
+    {
+      if (!check_reg_key_handle(h, ec))
+        return std::wstring();
 
+      scoped_dynamic_library lib(L"ntdll.dll", ec);
+      if (ec)
+        return std::wstring();
 
+      typedef DWORD (__stdcall *NtQueryKeyType)(
+        HANDLE  KeyHandle,
+        int KeyInformationClass,
+        PVOID  KeyInformation,
+        ULONG  Length,
+        PULONG  ResultLength);
+
+      enum { KeyNameInformation = 3 };
+
+      #ifndef STATUS_BUFFER_TOO_SMALL
+      #  define STATUS_BUFFER_TOO_SMALL ((NTSTATUS)0xC0000023L)
+      #endif
+      #ifndef STATUS_SUCCESS
+      #  define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
+      #endif
+
+      NtQueryKeyType func = lib.get_proc_address<NtQueryKeyType>("NtQueryKey", ec);
+      if (ec)
+        return std::wstring();
+
+      ULONG size = 0;
+      DWORD res = func(h, KeyNameInformation, nullptr, 0, &size);
+      if (res == STATUS_BUFFER_TOO_SMALL) 
+      {
+        size += 2;
+        std::wstring name;        
+        name.resize(size / 2);
+        res = func(h, KeyNameInformation, &name[0], size, &size);
+        if (res == STATUS_SUCCESS)
+          if (name.size() > 1)
+            name.erase(0, 2); // remove first 2 symbols (size of the string[4 bytes], is used in kernel mode)
+          return trim_terminating_zeros(name);
+      }
+      ec = make_win_error(res);
+      return std::wstring();
+    }
   }
 
   
-
   namespace detail
   {
     reg_item_enumerator enum_reg_sub_keys(const scoped_reg_key::tracker& key, error_code_ref ec)

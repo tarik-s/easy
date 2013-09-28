@@ -8,7 +8,7 @@
 
 #include <easy/db/sqlite/config.h>
 #include <easy/safe_bool.h>
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 #include <easy/strings.h>
 #include <boost/noncopyable.hpp> // most classes are noncopyable
 

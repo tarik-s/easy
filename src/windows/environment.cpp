@@ -111,29 +111,35 @@ namespace windows
       : m_target(target)
       , m_key(make_env_reg_key(target, reg_access::read, ec))
     {      
-//       if (!ec)
-//         m_enum_ptr = m_key.enum_values(ec);
+      if (!ec)
+        m_enum = m_key.enum_values(ec);
     }
 
-    result_type get_next(error_code_ref ec) EASY_FINAL {
-      return nullptr;
-//       if (!m_enum_ptr) {
-//         ec = generic_error::null_ptr;
-//         return nullptr;
-//       }
-//       auto opt_val = m_enum_ptr->get_next(ec);
-//       if (!opt_val)
-//         return nullptr;
-// 
-//       std::wstring value;
-// 
-//       return internal_environment_factory::create_variable(std::wstring(opt_val->get_name()), std::move(value), m_target);
+    result_type get_next(error_code_ref ec) EASY_FINAL 
+    {
+      if (!m_enum) {
+        ec = generic_error::null_ptr;
+        return nullptr;
+      }
+
+      auto opt_name = m_enum->get_next(ec);
+      if (!opt_name || opt_name->empty())
+        return nullptr;
+      std::wstring name = *opt_name;
+      std::wstring value = m_key.get_value<std::wstring>(name, L"", ec);
+      if (ec)
+        return nullptr;
+
+      if (value.empty())  // value can be set to empty manually, skip it
+        return get_next(ec);
+
+      return internal_environment_factory::create_variable(std::move(name), std::move(value), m_target);
     }
 
   private:
     environment_variable_target m_target;
     scoped_reg_key m_key;
-    //reg_value_enumerator m_enum_ptr;
+    reg_item_enumerator m_enum;
   };
 
 
@@ -171,17 +177,19 @@ namespace windows
     : m_target(target)
     , m_name(name)
   {
-    if (m_target == environment_variable_target::process)
+    if (m_target == environment_variable_target::process) {
       m_value = api::get_environment_variable(name, ec);
+    }
     else {
       scoped_reg_key key = make_env_reg_key(target, reg_access::read, ec);
       if (!ec) {
-        reg_value val = key.get_value(name, ec);
-        if (!ec) {
-
+        auto val = key.get_value<std::wstring>(name, ec);
+        if (!ec && val) {
+          m_value = *val;
         }
       }
     }
+
     if (m_value.empty()) // a value cannot be empty
       ec = generic_error::invalid_value;
 
@@ -203,6 +211,11 @@ namespace windows
   const std::wstring& environment_variable::get_value() const
   {
     return m_value;
+  }
+
+  std::wstring environment_variable::get_expanded_value(error_code_ref ec) const
+  {
+    return api::expand_environment_variable(m_value, ec);
   }
 
   environment_variable_target environment_variable::get_target() const
@@ -280,6 +293,46 @@ namespace windows
   environment_variable environment_variable::create(const lite_wstring& name, const lite_wstring& value, error_code_ref ec)
   {
     return create(name, value, environment_variable_target::process, ec);
+  }
+
+  namespace api
+  {
+    std::wstring get_environment_variable(const lite_wstring& name, error_code_ref ec)
+    {
+      if (name.empty()) {
+        ec = generic_error::invalid_value;
+        return std::wstring();
+      }
+      std::wstring result(64, wchar_t());
+      while (DWORD len = ::GetEnvironmentVariableW(name.c_str(), &result[0], result.size())) {
+        bool ok = len <= result.size();
+        result.resize(len);
+        if (ok)
+          return result;
+      }
+      ec = make_last_win_error();
+      return std::wstring();
+    }
+
+    std::wstring expand_environment_variable(const lite_wstring& value, error_code_ref ec)
+    {
+      std::wstring res;
+      while (DWORD len = ::ExpandEnvironmentStringsW(value.c_str(), res.empty() ? nullptr : &res[0], res.size()))
+      {
+        if (len > res.size()) {
+          res.resize(len);
+          continue;
+        }
+
+        while (!res.empty() && !res.back())
+          res.pop_back();
+
+        return res;
+      }
+      ec = make_last_win_error();
+      return std::wstring();
+    }
+
   }
 
 }}

@@ -1,5 +1,5 @@
 ///
-/// \file   tests/error_code_ref_test.h
+/// \file   tests/error_handling_test.h
 /// \author Sergey Tararay
 /// \date   04.08.2013
 ///
@@ -8,7 +8,7 @@
 
 #include "include.h"
 
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 
 namespace {
   enum class user_error;

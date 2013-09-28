@@ -8,7 +8,7 @@
 
 #include <easy/config.h>
 
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/optional.hpp>

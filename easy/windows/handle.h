@@ -123,52 +123,6 @@ namespace windows
 
   //////////////////////////////////////////////////////////////////////////
 
-  struct dynamic_library_handle_traits
-  {
-    typedef api::dll_handle object_type;
-    typedef FARPROC raw_function_type;
-
-    static object_type get_invalid_object() {
-      return api::invalid_dll_handle;
-    }
-
-    static bool is_valid(object_type obj) EASY_NOEXCEPT {
-      return api::is_dll_handle_valid(obj);
-    }
-
-    static bool close_object(object_type obj, error_code_ref ec = nullptr) {
-      return api::free_library(obj, ec);
-    }
-  };
-
-  template<template<class Traits> class Holder>
-  class dynamic_library_impl
-    : public Holder<dynamic_library_handle_traits>
-  {
-  public:
-    typedef dynamic_library_handle_traits::object_type       object_type;
-    typedef dynamic_library_handle_traits::raw_function_type raw_function_type;
-
-    std::wstring get_file_path(error_code_ref ec = nullptr) const {
-      return api::get_module_file_name(get_object(), ec);
-    }
-
-    raw_function_type get_proc_address(const lite_string& name, error_code_ref ec = nullptr) const {
-      return api::get_library_proc_address(get_object(), name, ec);
-    }
-
-    template<class Function>
-    Function get_proc_address(const lite_string& name, error_code_ref ec = nullptr) const {
-      return static_cast<Function>(get_proc_address(name, ec));
-    }
-    
-  protected:
-    ~dynamic_library_impl() { }
-
-    static object_type construct(const lite_wstring& path, error_code_ref ec) {
-      return api::load_library(path, ec);
-    }
-  };
   //////////////////////////////////////////////////////////////////////////
 
   typedef basic_object<kernel_handle_impl<scoped_object_holder>>  scoped_handle;
@@ -179,8 +133,6 @@ namespace windows
 
   typedef basic_object<process_impl<scoped_object_holder>> scoped_process;
   typedef basic_object<process_impl<shared_object_holder>> shared_process;
-
-  typedef basic_object<dynamic_library_impl<scoped_object_holder>> scoped_dynamic_library;
   
 
 }}

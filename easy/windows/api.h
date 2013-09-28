@@ -8,7 +8,7 @@
 
 #include <easy/windows/config.h>
 
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 #include <easy/strings.h>
 #include <easy/safe_bool.h>
 #include <easy/range.h>
@@ -22,7 +22,7 @@ namespace api
   //////////////////////////////////////////////////////////////////////////
   // environment functions
 
-  std::wstring get_environment_variable(const lite_wstring& name, error_code_ref ec = nullptr);
+  
 
   //////////////////////////////////////////////////////////////////////////
   // kernel handle functions
@@ -115,18 +115,6 @@ namespace api
   //////////////////////////////////////////////////////////////////////////
   // dll functions
 
-  typedef HMODULE dll_handle;
-  typedef FARPROC raw_dll_function;
-  static const dll_handle invalid_dll_handle = nullptr;
-
-  bool is_dll_handle_valid(dll_handle h) EASY_NOEXCEPT;
-  bool check_dll_handle(dll_handle h, error_code_ref ec = nullptr);
-
-  dll_handle load_library(const lite_wstring& path, error_code_ref ec = nullptr);
-  bool free_library(dll_handle h, error_code_ref ec = nullptr);
-
-  raw_dll_function get_library_proc_address(dll_handle h, const lite_string& name, error_code_ref ec = nullptr);
-  std::wstring get_module_file_name(dll_handle h, error_code_ref ec = nullptr);
 
 
 }}}

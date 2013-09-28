@@ -9,7 +9,7 @@
 
 #include <easy/config.h>
 #include <easy/strings/lite_string.h>
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 
 namespace easy
 {

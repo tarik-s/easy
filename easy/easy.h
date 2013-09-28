@@ -10,10 +10,12 @@
 
 #include <easy/config.h>
 
+#include <easy/stlex/stlex.h>
+
 #include <easy/types.h>
 #include <easy/safe_bool.h>
 #include <easy/safe_call.h>
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 #include <easy/flags.h>
 #include <easy/strings.h>
 #include <easy/scope.h>

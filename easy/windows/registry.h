@@ -9,7 +9,7 @@
 #include <easy/windows/config.h>
 
 #include <easy/types.h>
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 #include <easy/strings.h>
 #include <easy/range.h>
 #include <easy/object.h>
@@ -54,7 +54,7 @@ namespace easy
       return (reg_key_handle)hive;
     }
 
-    //! Types which can be saved in the registry
+    //! Specifies the data types to use when storing values in the registry, or identifies the data type of a value in the registry.
     enum class reg_value_kind
     {
       unknown      = -2,
@@ -62,9 +62,16 @@ namespace easy
       dword        =  0,
       qword,
       string,
-      expand_string,
       multi_string,
-      binary
+      binary,
+      expand_string
+    };
+
+    //! Specifies optional behavior when retrieving name/value pairs from a registry key.
+    enum class reg_value_options
+    {
+      none,
+      do_not_expand_environment_names
     };
 
     //! Access a key is opened with
@@ -93,11 +100,11 @@ namespace easy
 
     //! Registry value holder type
     typedef boost::variant<
-      uint32,
-      uint64,
-      std::wstring,
-      wstring_list,
-      byte_vector
+      uint32,                 // dword  = 0
+      uint64,                 // qword  = 1
+      std::wstring,           // string = 2
+      wstring_list,           // multi_string = 3
+      byte_vector             // binary = 4
     > reg_value;
 
     //! enumerates over keys and values names
@@ -106,10 +113,46 @@ namespace easy
     namespace detail
     {
       template<reg_value_kind Kind>
+      struct kind_ 
+        : std::integral_constant<reg_value_kind, Kind> {
+      };
+
       struct reg_value_converter
       {
-        
-        typedef std::wstring out_type;
+
+        boost::optional<uint32> operator() (const reg_value& v, kind_<reg_value_kind::dword>) {
+          return get<uint32>(v);
+        }
+
+        boost::optional<uint64> operator() (const reg_value& v, kind_<reg_value_kind::qword>) {
+          return get<uint64>(v);
+        }
+
+        boost::optional<std::wstring> operator() (const reg_value& v, kind_<reg_value_kind::string>) {
+          return get<std::wstring>(v);
+        }
+
+        boost::optional<std::wstring> operator() (const reg_value& v, kind_<reg_value_kind::expand_string>) {
+          return get<std::wstring>(v);
+        }
+
+        boost::optional<wstring_list> operator() (const reg_value& v, kind_<reg_value_kind::multi_string>) {
+          return get<wstring_list>(v);
+        }
+
+        boost::optional<byte_vector> operator() (const reg_value& v, kind_<reg_value_kind::binary>) {
+          return get<byte_vector>(v);
+        }
+
+      private:
+        template<class Type>
+        boost::optional<Type> get(const reg_value& v) const {
+          const Type* p = boost::get<Type>(&v);
+          if (!p)
+            return nullptr;
+          return *p;
+        }
+
       };
     }
 
@@ -126,6 +169,7 @@ namespace easy
       bool flush_reg_key(reg_key_handle h, error_code_ref ec = nullptr);
 
       reg_key_handle create_reg_key(reg_key_handle h, const reg_path& subkey, const reg_open_params& params, error_code_ref ec = nullptr);
+      std::wstring get_reg_key_name(reg_key_handle h, error_code_ref ec = nullptr);
 
       reg_value_kind get_reg_value_kind(reg_key_handle h, const lite_wstring& name, error_code_ref ec = nullptr);
 
@@ -168,6 +212,11 @@ namespace easy
       //!
       typedef reg_key_handle object_type;
 
+      // Retrieves the name of the key
+      std::wstring get_name(error_code_ref ec = nullptr) const {
+        return api::get_reg_key_name(get_object(), ec);
+      }
+
       //! Deletes subkey
       bool delete_subkey(const reg_path& subkey, error_code_ref ec = nullptr) {
         return api::delete_reg_key(get_object(), subkey, ec);
@@ -193,22 +242,33 @@ namespace easy
         return api::set_reg_value(get_object(), name, kind, value, ec);
       }
 
-      //!
+      //! Retrieves the value associated with the specified name. Returns an empty @b reg_value if the name/value pair does not exist in the registry.
       reg_value get_value(const lite_wstring& name, error_code_ref ec = nullptr) const {
         return api::get_reg_value(get_object(), name, ec);
       }
 
-      //!
-      template<reg_value_kind Kind>
-      typename detail::reg_value_converter<
-        Kind
-      >::out_type get_value_as(const lite_wstring& name, error_code_ref ec = nullptr) const
+      //! Retrieves the value associated with the specified @b name. Returns @b null if the name/value pair does not exist in the registry.
+      template<class T>
+      boost::optional<T> get_value(const lite_wstring& name, error_code_ref ec = nullptr) const
       {
         reg_value val = get_value(name, ec);
         if (ec)
           return nullptr;
 
-        return nullptr;
+        T* p = boost::get<T>(&val);
+        if (!p)
+          return nullptr;
+        return *p;
+      }
+
+      //! Retrieves the value associated with the specified @b name. If the name is not found, returns the default value that you provide.
+      template<class T>
+      T get_value(const lite_wstring& name, const T& def_value, error_code_ref ec = nullptr) const
+      {
+        auto val = get_value<T>(name, ec);
+        if (ec)
+          return def_value;
+        return val.get_value_or(def_value);
       }
 
       //!

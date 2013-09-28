@@ -10,7 +10,7 @@
 #include <easy/db/sqlite/detail/sqlite_detail.h>
 
 #include <easy/strings.h>
-#include <easy/error_code_ref.h>
+#include <easy/error_handling.h>
 #include <easy/flags.h>
 
 #include <easy/db/sqlite/statement.h>
