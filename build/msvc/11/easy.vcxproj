@@ -24,10 +24,11 @@
     <ClInclude Include="..\..\..\easy\config\common_config.h" />
     <ClInclude Include="..\..\..\easy\config\windows_config.h" />
     <ClInclude Include="..\..\..\easy\db\config.h" />
-    <ClInclude Include="..\..\..\easy\db\sqlite.h" />
+    <ClInclude Include="..\..\..\easy\db\db.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\config.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\detail\sqlite_detail.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\database.h" />
+    <ClInclude Include="..\..\..\easy\db\sqlite\sqlite.h" />
     <ClInclude Include="..\..\..\easy\db\sqlite\statement.h" />
     <ClInclude Include="..\..\..\easy\easy.h" />
     <ClInclude Include="..\..\..\easy\error_code_ref.h" />
@@ -42,12 +43,11 @@
     <ClInclude Include="..\..\..\easy\stlex\type_traits.h" />
     <ClInclude Include="..\..\..\easy\streams.h" />
     <ClInclude Include="..\..\..\easy\strings.h" />
-    <ClInclude Include="..\..\..\easy\strings\c_string.h" />
+    <ClInclude Include="..\..\..\easy\strings\lite_string.h" />
     <ClInclude Include="..\..\..\easy\strings\underlying_char_type.h" />
     <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
     <ClInclude Include="..\..\..\easy\types.h" />
     <ClInclude Include="..\..\..\easy\windows\api.h" />
-    <ClInclude Include="..\..\..\easy\windows\api\registry_api.h" />
     <ClInclude Include="..\..\..\easy\windows\config.h" />
     <ClInclude Include="..\..\..\easy\windows\environment.h" />
     <ClInclude Include="..\..\..\easy\windows\error.h" />

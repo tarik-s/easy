@@ -12,17 +12,17 @@ namespace easy
   namespace 
   {
 #ifdef EASY_OS_WINDOWS
-    utf16_string utf8_to_utf16_impl(const c_utf8_string& s, error_code_ref ec)
+    std::wstring utf8_to_utf16_impl(const lite_string& s, error_code_ref ec)
     {
       // first find the size
       int size = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, nullptr, 0);
       if (size == 0) {
         ec = windows::make_last_win_error();
-        return utf16_string();
+        return std::wstring();
       }
 
       // this length includes the terminating null
-      utf16_string result(size-1, L'\0');
+      std::wstring result(size-1, L'\0');
 
       // now call again to format the string
       int res_size = ::MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s.c_str(), -1, &result.front(), size);
@@ -30,10 +30,10 @@ namespace easy
         return result;
 
       ec = windows::make_last_win_error();
-      return utf16_string();
+      return std::wstring();
     }
 
-    utf8_string utf16_to_utf8_impl(const c_utf16_string& s, error_code_ref ec)
+    std::string utf16_to_utf8_impl(const lite_wstring& s, error_code_ref ec)
     {
 #if EASY_WIN_VERSION < EASY_WINDOWS_VISTA
       const DWORD flags = 0;
@@ -44,11 +44,11 @@ namespace easy
       int size = ::WideCharToMultiByte(CP_UTF8, flags, s.c_str(), -1,  nullptr, 0, nullptr, nullptr);
       if (size == 0) {
         ec = windows::make_last_win_error();
-        return utf8_string();
+        return std::string();
       }
 
       // this length includes the terminating null
-      utf8_string result(size-1, '\0');
+      std::string result(size-1, '\0');
 
       // now call again to format the string
       int res_size = ::WideCharToMultiByte(CP_UTF8, flags, s.c_str(), -1, &result.front(), size, nullptr, nullptr);
@@ -56,7 +56,7 @@ namespace easy
         return result;
 
       ec = windows::make_last_win_error();
-      return utf8_string();
+      return std::string();
     }
 #else
 
@@ -64,17 +64,17 @@ namespace easy
 
   }
 
-  utf16_string utf8_to_utf16(const c_utf8_string& s, error_code_ref ec)
+  std::wstring utf8_to_utf16(const lite_string& s, error_code_ref ec)
   {
     if (!s) // an empty string is not an error
-      return utf16_string();
+      return std::wstring();
     return utf8_to_utf16_impl(s, ec);
   }
 
-  utf8_string utf16_to_utf8(const c_utf16_string& s, error_code_ref ec)
+  std::string utf16_to_utf8(const lite_wstring& s, error_code_ref ec)
   {
     if (!s) // an empty string is not an error
-      return utf8_string();
+      return std::string();
     return utf16_to_utf8_impl(s, ec);
   }
 

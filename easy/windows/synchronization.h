@@ -13,7 +13,8 @@
 #include <windows.h>
 
 namespace easy {
-namespace windows {
+namespace windows 
+{
 
   template<class Lockable>
   class lock
@@ -34,21 +35,26 @@ namespace windows {
     lockable& m_lockable;
   };
 
-
+  //! Wrapper over system CRITICAL_SECTION
   class critical_section
     : boost::noncopyable 
   {
   public:
+    //! Constructor. Creates a critical section.
     critical_section();
+
+    //! Destructor. Destroys the critical section.
     ~critical_section();
 
+    //! Acquires the critical section
     void lock();
+
+    //! Releases the critical section
     void unlock();
   private:
     RTL_CRITICAL_SECTION m_cs;
   };
   typedef lock<critical_section> critical_section_lock;
-
 
 }}
 

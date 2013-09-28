@@ -12,7 +12,7 @@ namespace api
 {
 
   /*
-    bool get_env_var(const c_wstring& name, std::wstring& value, error_code_ref ec) 
+    bool get_env_var(const lite_wstring& name, std::wstring& value, error_code_ref ec) 
     {
       if (value.empty())
         value.resize(256);
@@ -28,7 +28,7 @@ namespace api
     }
   */
 
-  std::wstring get_environment_variable(const c_wstring& name, error_code_ref ec)
+  std::wstring get_environment_variable(const lite_wstring& name, error_code_ref ec)
   {
     if (name.empty()) {
       ec = generic_error::invalid_value;
@@ -170,7 +170,7 @@ namespace api
     return true;
   }
 
-  dll_handle load_library(const c_wstring& path, error_code_ref ec)
+  dll_handle load_library(const lite_wstring& path, error_code_ref ec)
   {
     dll_handle h = ::LoadLibraryW(path.c_str());
     if (!is_dll_handle_valid(h))
@@ -189,7 +189,7 @@ namespace api
     return true;
   }
 
-  raw_dll_function get_library_proc_address(dll_handle h, const c_string& name, error_code_ref ec)
+  raw_dll_function get_library_proc_address(dll_handle h, const lite_string& name, error_code_ref ec)
   {
     raw_dll_function addr = nullptr;
     if (api::check_dll_handle(h, ec)) {
@@ -239,163 +239,6 @@ namespace api
   }
 
   //////////////////////////////////////////////////////////////////////////
-
-  bool is_reg_key_handle_valid(reg_key_handle h)
-  {
-    return h != invalid_reg_key_handle;
-  }
-
-  bool check_reg_key_handle(reg_key_handle h, error_code_ref ec)
-  {
-    if (!is_reg_key_handle_valid(h)) {
-      ec = make_win_error(ERROR_INVALID_HANDLE);
-      return false;
-    }
-    return true;
-  }
-
-  bool close_reg_key(reg_key_handle h, error_code_ref ec)
-  {
-    if (!check_reg_key_handle(h, ec))
-      return false;
-
-    LSTATUS res = ::RegCloseKey(h);
-    ec = make_win_error(res);
-    return !ec;
-  }
-
-  bool delete_reg_key(reg_key_handle h, const reg_path& subkey, error_code_ref ec)
-  {
-    if (!check_reg_key_handle(h, ec))
-      return false;
-
-    LONG res = ::RegDeleteKeyW(h, reg_path(subkey).make_preferred().c_str());
-    ec = make_win_error(res);
-    return !ec;
-  }
-
-  bool delete_reg_value(reg_key_handle h, const c_wstring& name, error_code_ref ec)
-  {
-    if (!check_reg_key_handle(h, ec))
-      return false;
-
-    LONG res = ::RegDeleteValueW(h, name.c_str());
-    ec = make_win_error(res);
-    return !ec;
-  }
-
-  reg_key_handle create_reg_key(reg_key_handle h, const reg_path& subkey, reg_open_mode mode, 
-    reg_access access, reg_virtualization virt, error_code_ref ec)
-  {
-    if (!check_reg_key_handle(h, ec))
-      return invalid_reg_key_handle;
-    
-    // normalize registry path
-    reg_path s(subkey);
-    s.make_preferred();
-
-    DWORD disposition = 0;
-    reg_key_handle key = invalid_reg_key_handle;
-
-    REGSAM sam = (REGSAM)access;
-    if (virt == reg_virtualization::enabled)
-      sam |= KEY_WOW64_64KEY;
-
-    LONG res = (mode == reg_open_mode::open) 
-      ? ::RegOpenKeyExW(h, s.c_str(), 0, sam, &key)
-      : ::RegCreateKeyExW(h, s.c_str(), 0, nullptr, REG_OPTION_NON_VOLATILE, sam, nullptr, &key, &disposition);
-
-    ec = make_win_error(res);
-    return !ec ? key : invalid_reg_key_handle;
-  }
-
-  namespace
-  {
-    reg_value_type reg_value_type_from_winapi_type(DWORD type) {
-      switch (type)
-      {
-      case REG_NONE      : return reg_value_type::none;
-      case REG_SZ        : return reg_value_type::string;
-      case REG_EXPAND_SZ : return reg_value_type::expand_string;
-      case REG_MULTI_SZ  : return reg_value_type::multi_string;
-      case REG_BINARY    : return reg_value_type::binary;
-      case REG_DWORD     : return reg_value_type::dword;
-      case REG_QWORD     : return reg_value_type::qword;
-      }
-      return reg_value_type::unknown;
-    }
-
-    DWORD winapi_type_from_reg_value_type(reg_value_type type) {
-      switch (type)
-      {
-      case reg_value_type::none          : return REG_NONE;
-      case reg_value_type::string        : return REG_SZ;
-      case reg_value_type::expand_string : return REG_EXPAND_SZ;
-      case reg_value_type::multi_string  : return REG_MULTI_SZ;
-      case reg_value_type::binary        : return REG_BINARY;
-      case reg_value_type::dword         : return REG_DWORD;
-      case reg_value_type::qword         : return REG_QWORD;
-      }
-      return REG_NONE;
-    }
-
-    DWORD get_reg_value_type_internal(reg_key_handle h, const c_wstring& name, error_code_ref ec)
-    {
-      DWORD type = REG_NONE;
-      if (!check_reg_key_handle(h, ec))
-        return type;
-      
-      LONG res = ::RegQueryValueEx(h, name.c_str(), nullptr, &type, nullptr, nullptr);
-      ec = make_win_error(res);
-      return type;
-    }
-  
-  }
-
-  reg_value_type get_reg_value_type(reg_key_handle h, const c_wstring& name, error_code_ref ec)
-  {
-    DWORD type = get_reg_value_type_internal(h, name, ec);
-    return reg_value_type_from_winapi_type(type);
-  }
-
-  bool set_reg_value(reg_key_handle h, const c_wstring& name, reg_value_type type, const byte* data_ptr, size_t size, error_code_ref ec)
-  {
-    if (!check_reg_key_handle(h, ec))
-      return false;
-
-    DWORD valtype = winapi_type_from_reg_value_type(type);
-    if (valtype == REG_NONE) {
-      ec = generic_error::invalid_value;
-      return false;
-    }
-
-    LONG res = ::RegSetValueEx(h, name.c_str(), 0, valtype, data_ptr, size);
-    ec = make_win_error(res);
-    return !ec;
-  }
-
-  bool set_reg_value_uint32(reg_key_handle h, const c_wstring& name, uint32 value, error_code_ref ec)
-  {
-    DWORD v = value;
-    return set_reg_value(h, name, reg_value_type::dword, (const byte*)&v, sizeof(v), ec);
-  }
-
-  bool set_reg_value_uint64(reg_key_handle h, const c_wstring& name, uint64 value, error_code_ref ec)
-  {
-    ULONGLONG v = value;
-    return set_reg_value(h, name, reg_value_type::qword, (const byte*)&v, sizeof(v), ec);
-  }
-
-  bool set_reg_value_string(reg_key_handle h, const c_wstring& name, const c_wstring& value, error_code_ref ec)
-  {
-    return set_reg_value(h, name, reg_value_type::string, (const byte*)value.c_str(), value.size() * sizeof(c_wstring::value_type), ec);
-  }
-
-  bool set_reg_value_exp_string(reg_key_handle h, const c_wstring& name, const c_wstring& value, error_code_ref ec)
-  {
-    return set_reg_value(h, name, reg_value_type::expand_string, (const byte*)value.c_str(), value.size() * sizeof(c_wstring::value_type), ec);
-  }
-
 
 
 

@@ -153,19 +153,19 @@ namespace windows
       return api::get_module_file_name(get_object(), ec);
     }
 
-    raw_function_type get_proc_address(const c_string& name, error_code_ref ec = nullptr) const {
+    raw_function_type get_proc_address(const lite_string& name, error_code_ref ec = nullptr) const {
       return api::get_library_proc_address(get_object(), name, ec);
     }
 
     template<class Function>
-    Function get_proc_address(const c_string& name, error_code_ref ec = nullptr) const {
+    Function get_proc_address(const lite_string& name, error_code_ref ec = nullptr) const {
       return static_cast<Function>(get_proc_address(name, ec));
     }
     
   protected:
     ~dynamic_library_impl() { }
 
-    static object_type construct(const c_wstring& path, error_code_ref ec) {
+    static object_type construct(const lite_wstring& path, error_code_ref ec) {
       return api::load_library(path, ec);
     }
   };

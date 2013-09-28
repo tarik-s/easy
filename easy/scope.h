@@ -16,14 +16,23 @@
 
 namespace easy
 {
-
+  //! Scoped Call
   class scoped_call
     : boost::noncopyable
   {
   public:
+
+    //! Call type
     typedef std::function<void()> call_type;
 
-    enum class condition { none, exit, success, failure };
+    //! Scoped call condition
+    enum class condition 
+    { 
+      none,    //!< None
+      exit,    //!< Exit
+      success, //!< Success
+      failure  //!< Failure
+    };
 
     scoped_call() EASY_NOEXCEPT
       : m_cond(condition::none) {
@@ -66,6 +75,7 @@ namespace easy
     call_type m_func;
   };
   
+  //! Scope
   template<scoped_call::condition Cond>
   class scope
     : boost::noncopyable
@@ -80,8 +90,13 @@ namespace easy
     scoped_call m_call;
   };
 
-  typedef scope<scoped_call::condition::exit>    scope_exit;
+  //! Scope Exit
+  typedef scope<scoped_call::condition::exit> scope_exit;
+
+  //! Scope Success
   typedef scope<scoped_call::condition::success> scope_success;
+
+  //! Scope Failure
   typedef scope<scoped_call::condition::failure> scope_failure;
 
 }

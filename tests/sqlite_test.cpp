@@ -1,5 +1,5 @@
 #include "include.h"
-#include <easy/db/sqlite.h>
+#include <easy/db/sqlite/sqlite.h>
 
 
 BOOST_AUTO_TEST_CASE(SQLite)

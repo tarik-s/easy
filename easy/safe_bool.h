@@ -16,20 +16,16 @@
 namespace easy
 {
 
-  /*!
-   * @class safe_bool
-   * @brief workaround to eliminate pitfalls of operator bool
-   */
-
+  //! Workaround to eliminate pitfalls of operator bool
   template <typename Derived> 
   class safe_bool
   {
     void true_type() { }
   public:
-    /// explicit_bool 
+    //! explicit_bool type
     typedef void (safe_bool<Derived>::*explicit_bool) ();
 
-    /// default operator explicit_bool 
+    //! operator explicit_bool 
     operator explicit_bool() const {
       return static_cast<const Derived*>(this)->operator!() ? nullptr : explicit_true();
     }
@@ -49,15 +45,15 @@ namespace easy
     }
   };
 
-  /**
-   *  Comparison with bool
+  /*!
+   * @{
+   * @brief Compares between safe_bool<T> and bool
    */
-  
   template <class T, class Bool>
   typename boost::enable_if<
     boost::is_same<Bool, bool>,
     bool
-  >::type operator == (const safe_bool<T>& lhs, bool b) 
+  >::type operator == (const safe_bool<T>& lhs, Bool b) 
   {
     return !!lhs == b;
   }
@@ -88,11 +84,13 @@ namespace easy
   {
     return !(b == rhs);
   }
+  /*! @} */
 
-  /**
-   *  Comparison with safe_bool is disabled
+
+  /*!
+   * @{
+   * @brief Disables comparison between safe_bool<T> and safe_bool<U>
    */
-
   template <class T, class U> 
   bool operator == (const safe_bool<T>& lhs, const safe_bool<U>& rhs) {
     EASY_STATIC_ASSERT(0, "safe_bool is not comparable to other safe_bool");
@@ -103,6 +101,8 @@ namespace easy
   bool operator != (const safe_bool<T>& lhs, const safe_bool<U>& rhs) {
     return !(lhs == rhs);
   }
+
+  /*! @} */
 }
 
 #endif

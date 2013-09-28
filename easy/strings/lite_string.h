@@ -1,5 +1,5 @@
 /*!
- *  @file   easy/strings/c_string.h
+ *  @file   easy/strings/lite_string.h
  *  @author Sergey Tararay
  *  @date   2013
  *
@@ -24,31 +24,31 @@
 
 namespace easy
 {
-  template<class TChar> class basic_c_string;
+  template<class TChar> class basic_lite_string;
 }
 
 template<class TChar>
-easy::basic_c_string<TChar> make_c_string(const TChar* pstr) {
-  return easy::basic_c_string<TChar>(pstr, std::char_traits<TChar>::length(pstr));
+easy::basic_lite_string<TChar> make_c_string(const TChar* pstr) {
+  return easy::basic_lite_string<TChar>(pstr, std::char_traits<TChar>::length(pstr));
 }
 
 namespace std
 {
   template<class TChar>
-  easy::basic_c_string<TChar> make_c_string(const basic_string<TChar>& str) {
-    return easy::basic_c_string<TChar>(str.c_str(), str.size());
+  easy::basic_lite_string<TChar> make_c_string(const basic_string<TChar>& str) {
+    return easy::basic_lite_string<TChar>(str.c_str(), str.size());
   }
 }
 
 namespace easy
 {
   template<class TChar>
-  class basic_c_string
-    : public safe_bool<basic_c_string<TChar>>
+  class basic_lite_string
+    : public safe_bool<basic_lite_string<TChar>>
     , boost::noncopyable
   {
   public:
-    typedef basic_c_string   this_type;
+    typedef basic_lite_string   this_type;
     typedef TChar            char_type;
     typedef char_type        value_type;
     typedef size_t           size_type;          
@@ -59,29 +59,29 @@ namespace easy
     typedef std::basic_string<char_type> string_type;
   public:
     
-    basic_c_string() EASY_NOEXCEPT { }
+    basic_lite_string() EASY_NOEXCEPT { }
 
-    basic_c_string(nullptr_t) EASY_NOEXCEPT { }
+    basic_lite_string(nullptr_t) EASY_NOEXCEPT { }
 
-    basic_c_string(basic_c_string && r) EASY_NOEXCEPT {
+    basic_lite_string(basic_lite_string && r) EASY_NOEXCEPT {
       *this = std::move(r);
     }
 
-    basic_c_string(string_type && str)
+    basic_lite_string(string_type && str)
       : m_holder_ptr(new string_type(std::move(str)))
       , m_str(m_holder_ptr->c_str(), m_holder_ptr->size()) {
     }
 
-    basic_c_string(const char_type* pstr, size_t size) EASY_NOEXCEPT
+    basic_lite_string(const char_type* pstr, size_t size) EASY_NOEXCEPT
       : m_str(size > 0 ? pstr : nullptr, size) {
     }
 
-    basic_c_string(const_iterator begin, const_iterator end) EASY_NOEXCEPT
+    basic_lite_string(const_iterator begin, const_iterator end) EASY_NOEXCEPT
       : m_str(begin, end) {
     }
 
     template<class TStr>
-    basic_c_string(const TStr& str, 
+    basic_lite_string(const TStr& str, 
       typename boost::enable_if<
         boost::is_same<
           typename underlying_char_type<
@@ -152,7 +152,7 @@ namespace easy
     }
 
   private:
-    basic_c_string& operator = (basic_c_string && r) EASY_NOEXCEPT {
+    basic_lite_string& operator = (basic_lite_string && r) EASY_NOEXCEPT {
       m_str = r.m_str;
       m_holder_ptr = std::move(r.m_holder_ptr);
       return *this;
@@ -180,16 +180,10 @@ namespace easy
     sized_str m_str;
   }; 
 
-
-  typedef basic_c_string<char> c_string;
-  typedef c_string             c_utf8_string;
-  typedef std::string          utf8_string;
+  typedef basic_lite_string<char>    lite_string;
 
 #ifdef EASY_HAS_WCAHR
-  typedef basic_c_string<wchar_t> c_wstring;
-  typedef c_wstring               c_utf16_string;
-  typedef std::wstring            utf16_string;
-  typedef utf16_string            unicode_string;
+  typedef basic_lite_string<wchar_t> lite_wstring;
 #endif
   
 }

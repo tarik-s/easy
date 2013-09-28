@@ -24,13 +24,51 @@ namespace easy
     return val >= begin && val < end;
   }
 
+  /*!
+   * @{
+   * @brief Check the value is equal to at least one of the others
+   */
+  template<class A>
+  bool is_any_of(A v, A a1, A a2) {
+    return v == a1 || v == a2;
+  }
+
+  template<class A>
+  bool is_any_of(A v, A a1, A a2, A a3) {
+    return v == a1 || v == a2 || v == a3;
+  }
+
+  template<class A>
+  bool is_any_of(A v, A a1, A a2, A a3, A a4) {
+    return v == a1 || v == a2 || v == a3 || v == a4;
+  }
+
+  template<class A>
+  bool is_any_of(A v, A a1, A a2, A a3, A a4, A a5) {
+    return v == a1 || v == a2 || v == a3 || v == a4 || v == a5;
+  }
+
+  template<class A>
+  bool is_any_of(A v, A a1, A a2, A a3, A a4, A a5, A a6) {
+    return v == a1 || v == a2 || v == a3 || v == a4 || v == a5 || v == a6;
+  }
+
+  /*! @} */
+
+  //! Base enumerator class
   template<class Value>
-  struct enumerable
+  struct enumerator
   {
+    //! Value type to be enumerated
     typedef Value value_type;
+
+    //! Type returning by enumerator
     typedef boost::optional<value_type> result_type;
 
-    virtual ~enumerable() { }
+    //! Virtual destructor. 
+    virtual ~enumerator() { }
+
+    //! Main enumeration function. Must be implemented in derived class.
     virtual result_type get_next(error_code_ref ec = nullptr) = 0;
   };
 
@@ -46,7 +84,7 @@ namespace easy
       >
     {
     public:
-      typedef enumerable<Value> enum_type;
+      typedef enumerator<Value> enum_type;
       typedef std::shared_ptr<enum_type> enum_ptr;
 
       forward_iterator_base() EASY_NOEXCEPT { }
@@ -134,10 +172,12 @@ namespace easy
 
   }
 
+
+  //! Creates iterator range from any class derived from enumerator<T>, and makes it possible to use the range in for loop.
   template<class Value>
-  detail::range<Value> make_range(std::unique_ptr<enumerable<Value>> && enum_ptr, error_code_ref ec = nullptr)
+  detail::range<Value> make_range(std::unique_ptr<enumerator<Value>> && enum_ptr, error_code_ref ec = nullptr)
   {
-    return detail::range<Value>(std::forward<std::unique_ptr<enumerable<Value>>>(enum_ptr), ec);
+    return detail::range<Value>(std::forward<std::unique_ptr<enumerator<Value>>>(enum_ptr), ec);
   }
 
 }

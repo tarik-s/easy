@@ -7,7 +7,7 @@
 
 BOOST_AUTO_TEST_CASE(MainEasyTest)
 {
-
+  using namespace easy;
   using namespace easy::windows;
 
   scoped_handle h;//(10, 20);
@@ -29,11 +29,20 @@ BOOST_AUTO_TEST_CASE(MainEasyTest)
 
   h = nullptr;
 
-  scoped_reg_key key(reg_hive::hkcu, L"Software/ABBYY");
+  scoped_reg_key key(reg_hive::hkcu, L"Software");
+  {
+    scoped_reg_key sub_key(key.get_object(), L"TestSubKey", reg_open_params(reg_open_mode::create, reg_access::all));
+    sub_key.set_value(L"new_key", (uint32)123);
+    sub_key.set_value(L"key_2", L"hello");
+
+    auto val = sub_key.get_value(L"key_2");
+    /*sub_key.set_value()*/
+  }
+
   //reg_value_type rvt = key.get_value_type(L"InstallationCount");
 
-  for (const auto& k : make_range(key.enum_keys())) {
-    //reg_key _rk(key, *k);
+  for (const auto& k : make_range(key.enum_sub_keys())) {
+    scoped_reg_key _rk(key, k);
     std::wcout << k << '\n';
   }
 // 

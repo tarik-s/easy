@@ -8,6 +8,4 @@
 
 #include <easy/config.h>
 
-
-
 #endif

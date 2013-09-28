@@ -39,14 +39,14 @@ BOOST_AUTO_TEST_CASE(Strings)
   using namespace easy;
 
   std::string s("hello");
-  c_string _cs = s;
+  lite_string _cs = s;
 
 //  const char* pstr = "world";
 
   stringable_enum se = stringable_enum::value2;
 
-  c_string _cse = se;
+  lite_string _cse = se;
 
-  c_string csss(std::string("heeee"));
+  lite_string csss(std::string("heeee"));
 
 }

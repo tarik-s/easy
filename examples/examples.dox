@@ -1,0 +1,14 @@
+/*!
+  @page examples.html Easy Examples
+  @brief List of Easy examples
+  @ingroup groupWindows
+
+  The module provides the following examples for reference to
+  help understand the API usage:
+
+  @li blockingmaster
+  @li blockingslave
+  @li cenumerator
+  @li enumerator
+  @li terminal
+*/

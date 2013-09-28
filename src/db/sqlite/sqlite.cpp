@@ -1,4 +1,4 @@
-#include <easy/db/sqlite.h>
+#include <easy/db/sqlite/sqlite.h>
 
 #include <easy/strings/string_conv.h>
 #include <easy/stlex/make_unique.h>
@@ -48,13 +48,13 @@ namespace easy { namespace db { namespace sqlite
       : boost::noncopyable
     {
     public:
-      database_impl(const c_string& file_path) EASY_NOEXCEPT
+      database_impl(const lite_string& file_path) EASY_NOEXCEPT
         : m_is_v2(false)
       {
         m_code = ::sqlite3_open(file_path.c_str(), &m_db);
       }
 
-      database_impl(const c_string& file_path, int flags)  EASY_NOEXCEPT
+      database_impl(const lite_string& file_path, int flags)  EASY_NOEXCEPT
         : m_is_v2(true)
       {
         m_code = ::sqlite3_open_v2(file_path.c_str(), &m_db, flags, nullptr);
@@ -67,7 +67,7 @@ namespace easy { namespace db { namespace sqlite
         }
       }
 
-      int execute(const c_string& sql) EASY_NOEXCEPT {
+      int execute(const lite_string& sql) EASY_NOEXCEPT {
         return (m_code = ::sqlite3_exec(m_db, sql.c_str(), nullptr, nullptr, nullptr));
       }
 
@@ -91,7 +91,7 @@ namespace easy { namespace db { namespace sqlite
       : boost::noncopyable
     {
     public:
-      statement_impl(database_impl& _db, const c_utf8_string& query) EASY_NOEXCEPT
+      statement_impl(database_impl& _db, const lite_string& query) EASY_NOEXCEPT
         : m_stmt(nullptr)
       {
         m_code = ::sqlite3_prepare_v2(_db.get_handle(), query.c_str(), query.length(), &m_stmt, nullptr);
@@ -130,14 +130,7 @@ namespace easy { namespace db { namespace sqlite
 
   }
 
-  database::database(const c_utf16_string& db_file_path, error_code_ref ec)
-  {
-    const utf8_string path = utf16_to_utf8(db_file_path, ec);
-    if (!ec)
-      *this = database(path, ec);
-  }
-
-  database::database(const c_utf8_string& db_file_path, error_code_ref ec)
+  database::database(const lite_string& db_file_path, error_code_ref ec)
     : m_impl_ptr(std::make_unique<database_impl>(db_file_path.c_str()))
   {
     ec = m_impl_ptr->get_last_ec();
@@ -145,19 +138,12 @@ namespace easy { namespace db { namespace sqlite
       m_impl_ptr.reset();
   }
 
-  database::database(const c_utf8_string& db_file_path, open_flag flags, error_code_ref ec)
+  database::database(const lite_string& db_file_path, open_flag flags, error_code_ref ec)
     : m_impl_ptr(std::make_unique<database_impl>(db_file_path.c_str(), static_cast<int>(flags)))
   {
     ec = m_impl_ptr->get_last_ec();
     if (ec)
       m_impl_ptr.reset();
-  }
-
-  database::database(const c_utf16_string& db_file_path, open_flag flags, error_code_ref ec)
-  {
-    const utf8_string path = utf16_to_utf8(db_file_path, ec);
-    if (!ec)
-      *this = database(path, flags, ec);
   }
 
   database::~database()
@@ -171,7 +157,7 @@ namespace easy { namespace db { namespace sqlite
     return *this;
   }
 
-  bool database::execute(const c_utf8_string& sql, error_code_ref ec)
+  bool database::execute(const lite_string& sql, error_code_ref ec)
   {
     if (m_impl_ptr) {
       m_impl_ptr->execute(sql);
@@ -183,15 +169,7 @@ namespace easy { namespace db { namespace sqlite
     return !ec;
   }
 
-  bool database::execute(const c_utf16_string& sql, error_code_ref ec)
-  {
-    const c_string _sql = utf16_to_utf8(sql, ec);
-    if (ec)
-      return false;
-    return execute(_sql, ec);
-  }
-
-  statement database::create_statement(const c_utf8_string& query, error_code_ref ec)
+  statement database::create_statement(const lite_string& query, error_code_ref ec)
   {
     if (m_impl_ptr) {
       statement::impl_ptr ps(std::make_unique<statement_impl>(*m_impl_ptr, query));
@@ -204,15 +182,6 @@ namespace easy { namespace db { namespace sqlite
     }
     return statement();
   }
-
-  statement database::create_statement(const c_utf16_string& query, error_code_ref ec)
-  {
-    const c_utf8_string q = utf16_to_utf8(query, ec);
-    if (ec)
-      return statement();
-    return create_statement(q, ec);
-  }
-
 
   //////////////////////////////////////////////////////////////////////////
 
@@ -244,7 +213,7 @@ namespace easy { namespace db { namespace sqlite
     return *this;
   }
 
-  statement::statement(database& _db, const c_utf8_string& query, error_code_ref ec)
+  statement::statement(database& _db, const lite_string& query, error_code_ref ec)
   {
     *this = _db.create_statement(query, ec);
   }

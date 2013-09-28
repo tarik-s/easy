@@ -42,9 +42,6 @@
     <Filter Include="src\windows">
       <UniqueIdentifier>{02607545-0cb3-47b3-94f6-59a7cd63f062}</UniqueIdentifier>
     </Filter>
-    <Filter Include="easy\windows\api">
-      <UniqueIdentifier>{133e94bb-51bd-4599-aced-54beed55bc3e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp">
@@ -70,9 +67,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\easy\strings\c_string.h">
-      <Filter>easy\strings</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\easy\config.h">
       <Filter>easy</Filter>
     </ClInclude>
@@ -96,9 +90,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\strings\string_conv.h">
       <Filter>easy\strings</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\db\sqlite.h">
-      <Filter>easy\db</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\db\config.h">
       <Filter>easy\db</Filter>
@@ -172,8 +163,14 @@
     <ClInclude Include="..\..\..\easy\object.h">
       <Filter>easy</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\easy\windows\api\registry_api.h">
-      <Filter>easy\windows\api</Filter>
+    <ClInclude Include="..\..\..\easy\db\sqlite\sqlite.h">
+      <Filter>easy\db\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\db\db.h">
+      <Filter>easy\db</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\strings\lite_string.h">
+      <Filter>easy\strings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

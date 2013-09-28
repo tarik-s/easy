@@ -73,19 +73,11 @@ namespace db {
       database(database && r) EASY_NOEXCEPT;
       database& operator = (database && r) EASY_NOEXCEPT;
 
-      explicit database(const c_utf8_string& db_file_path, error_code_ref ec = nullptr);
-      explicit database(const c_utf16_string& db_file_path, error_code_ref ec = nullptr);
-      database(const c_utf8_string& db_file_path, open_flag flags, error_code_ref ec = nullptr);
-      database(const c_utf16_string& db_file_path, open_flag flags, error_code_ref ec = nullptr);      
+      explicit database(const lite_string& db_file_path, error_code_ref ec = nullptr);
+      database(const lite_string& db_file_path, open_flag flags, error_code_ref ec = nullptr);
 
-      //EASY_DECLARE_EXPLICIT_OPERATOR_BOOL(m_impl_ptr)
-
-      bool execute(const c_utf8_string& sql, error_code_ref ec = nullptr);
-      bool execute(const c_utf16_string& sql, error_code_ref ec = nullptr);
-      
-      statement create_statement(const c_utf8_string& query, error_code_ref ec = nullptr);
-      statement create_statement(const c_utf16_string& query, error_code_ref ec = nullptr);
-
+      bool execute(const lite_string& sql, error_code_ref ec = nullptr);
+      statement create_statement(const lite_string& query, error_code_ref ec = nullptr);
     private:
       impl_ptr m_impl_ptr;
     };

@@ -21,15 +21,17 @@ namespace windows
   // forward declarations
   class environment_variable;
   class environment_strings;
-  typedef std::unique_ptr<enumerable<environment_variable>> environment_variable_enumerator;
+
+  //! Enumerates environment variables
+  typedef std::unique_ptr<enumerator<environment_variable>> environment_variable_enumerator; 
 
   //! Environment variable target
   enum class environment_variable_target
   {
-    unknown,
-    process,
-    machine,
-    user
+    unknown,    //!< Unknown target
+    process,    //!< Process
+    machine,    //!< Machine
+    user        //!< Current user
   };
 
   //! Environment strings
@@ -37,9 +39,14 @@ namespace windows
     : boost::noncopyable
   {
   public:
+    //! @brief Constructor. Gets environment variables of the current process
+    //! @sa error_code_ref
     environment_strings(error_code_ref ec = nullptr);
+
+    //! Destructor. Frees allocated resources
     ~environment_strings() EASY_NOEXCEPT;
 
+    //! Returns a string representation of all environment variables
     const wchar_t* data() const EASY_NOEXCEPT;
   private:
     wchar_t* m_pstr;
@@ -60,31 +67,40 @@ namespace windows
     environment_variable(environment_variable && v) EASY_NOEXCEPT;
 
     //! Opens existing variable 
-    environment_variable(const c_wstring& name, environment_variable_target target, error_code_ref ec = nullptr);
+    environment_variable(const lite_wstring& name, environment_variable_target target, error_code_ref ec = nullptr);
 
     //! Opens existing process environment variable
-    environment_variable(const c_wstring& name, error_code_ref ec = nullptr);
+    environment_variable(const lite_wstring& name, error_code_ref ec = nullptr);
 
+    //! Returns a variable name
     const std::wstring& get_name() const EASY_NOEXCEPT;
+
+    //! Returns a variable value
     const std::wstring& get_value() const EASY_NOEXCEPT;
+
+    //! Returns a variable origin
     environment_variable_target get_target() const EASY_NOEXCEPT;
 
     //! Sets variable value depending on target
-    bool set_value(const c_wstring& value, error_code_ref ec = nullptr);
+    bool set_value(const lite_wstring& value, error_code_ref ec = nullptr);
 
     //! Makes the variable convertible to explicit bool
     bool operator ! () const EASY_NOEXCEPT;
 
     //! Check if the specified variable exists
-    static bool exists(const c_wstring& name, environment_variable_target target = environment_variable_target::process);
+    static bool exists(const lite_wstring& name, environment_variable_target target = environment_variable_target::process);
 
-    static environment_variable create(const c_wstring& name, const c_wstring& value,
+    //! Creates a variable
+    static environment_variable create(const lite_wstring& name, const lite_wstring& value,
       environment_variable_target target, error_code_ref ec = nullptr);
 
-    static environment_variable create(const c_wstring& name, const c_wstring& value, error_code_ref ec = nullptr);
+    //! Creates a variable
+    static environment_variable create(const lite_wstring& name, const lite_wstring& value, error_code_ref ec = nullptr);
 
+    //! Creates environment variable enumerator
     static environment_variable_enumerator enum_variables(environment_variable_target target , error_code_ref ec = nullptr);
 
+    //! Creates process environment variable enumerator
     static environment_variable_enumerator enum_variables(error_code_ref ec = nullptr);
 
   private:
@@ -95,7 +111,7 @@ namespace windows
     std::wstring m_name;
     std::wstring m_value;
   };
-  
+
 }}
 
 #endif

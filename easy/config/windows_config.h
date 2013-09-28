@@ -32,7 +32,6 @@
 #define _WIN32_WINNT  EASY_WIN_VERSION
 
 #pragma warning(error : 4715) // not all control paths return a value
-
 #pragma warning(disable : 4996) // 'function': was declared deprecated
 
 #endif

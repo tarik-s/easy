@@ -6,9 +6,7 @@
 #ifndef EASY_CONFIG_COMMON_CONFIG_H_INCLUDED
 #define EASY_CONFIG_COMMON_CONFIG_H_INCLUDED
 
-/*!
- *  Operation system
- */
+//  Operation system
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32)
 #  define EASY_OS_WINDOWS
@@ -20,12 +18,9 @@
 #  error "Unsupported OS"
 #endif
 
-/*!
- *  Compiler type and its version
- */
+//  Compiler type and its version
 
 #if defined(_MSC_VER)
-
 #  define EASY_MSVC_VERSION _MSC_VER
 
 #  define EASY_MSVC_2010 1600
@@ -63,6 +58,11 @@
 #  define EASY_NOEXCEPT
 #endif
 
+/*!
+ * @def EASY_NOEXCEPT
+ * @brief Macro for noexcept keyword.
+ */
+
 //////////////////////////////////////////////////////////////////////////
 
 #ifdef EASY_HAS_FINAL_KEYWORD
@@ -87,9 +87,9 @@
 
 #define EASY_PURE_VIRTUAL = 0
 
-
 #ifdef _DEBUG
-#  define EASY_ASSERT(condition) /*assert(condition)*/
+#  define EASY_ASSERT(condition) \
+     assert(condition)
 #else
 #  define EASY_ASSERT(condition)
 #endif
@@ -101,7 +101,7 @@
   }
 
 
-
+//! Macro for static_assert keyword
 #define EASY_STATIC_ASSERT(condition, message) \
   static_assert(condition, message)
 

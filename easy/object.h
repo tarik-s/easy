@@ -67,9 +67,11 @@ namespace easy
 
     void reset_object(object_type obj = traits_type::get_invalid_object()) EASY_NOEXCEPT {
       if (obj != m_obj) {
-        error_code ec;
-        traits_type::close_object(m_obj, ec);
-        EASY_ASSERT(!ec);
+        if (traits_type::is_valid(m_obj)) {
+          error_code ec;
+          traits_type::close_object(m_obj, ec);
+          EASY_ASSERT(!ec);
+        }
         m_obj = obj;
       }
     }
@@ -225,6 +227,23 @@ namespace easy
     }
   };
 
+  template<class T>
+  struct is_object_handle
+    : boost::false_type {
+  };
+
+  template<class ObjectImpl>
+  typename ObjectImpl::object_type get_object_handle(const basic_object<ObjectImpl>& obj) 
+  {
+    return obj.get_object();
+  }
+
+}
+
+template<class ObjectHandle>
+ObjectHandle get_object_handle(const ObjectHandle& obj, typename boost::enable_if<easy::is_object_handle<ObjectHandle>>::type* = nullptr) 
+{
+  return obj;
 }
 
 #endif

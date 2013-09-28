@@ -21,11 +21,13 @@ namespace windows
     const wchar_t* machine_key = L"System/CurrentControlSet/Control/Session Manager/Environment";
     const wchar_t* user_key = L"Environment";
 
-    static scoped_reg_key make_env_reg_key(environment_variable_target target, reg_access access, error_code_ref ec) {
+    static scoped_reg_key make_env_reg_key(environment_variable_target target, reg_access access, error_code_ref ec) 
+    {
+      reg_open_params params(access);
       if (target == environment_variable_target::machine)
-        return scoped_reg_key(reg_hive::hklm, machine_key, reg_open_mode::open, access, ec);
+        return scoped_reg_key(reg_hive::hklm, machine_key, params, ec);
       else if (target == environment_variable_target::user)
-        return scoped_reg_key(reg_hive::hkcu, user_key, reg_open_mode::open, access, ec);
+        return scoped_reg_key(reg_hive::hkcu, user_key, params, ec);
 
       ec = generic_error::invalid_value;
       return nullptr;
@@ -68,7 +70,7 @@ namespace windows
 
 
   class process_environment_variable_enumerator_impl
-    : public enumerable<environment_variable>
+    : public enumerator<environment_variable>
   {
   public:
     process_environment_variable_enumerator_impl(error_code_ref ec)
@@ -77,7 +79,7 @@ namespace windows
     }
 
     result_type get_next(error_code_ref ec) EASY_FINAL {
-      const c_wstring s(m_pstr);
+      const lite_wstring s(m_pstr);
       if (!s)
         return false;
       m_pstr += s.length() + 1;
@@ -102,35 +104,36 @@ namespace windows
   //////////////////////////////////////////////////////////////////////////
 
   class reg_environment_variable_enumerator_impl
-    : public enumerable<environment_variable>
+    : public enumerator<environment_variable>
   {
   public:
     reg_environment_variable_enumerator_impl(environment_variable_target target, error_code_ref ec) 
       : m_target(target)
       , m_key(make_env_reg_key(target, reg_access::read, ec))
     {      
-      if (!ec)
-        m_enum_ptr = m_key.enum_values(ec);
+//       if (!ec)
+//         m_enum_ptr = m_key.enum_values(ec);
     }
 
     result_type get_next(error_code_ref ec) EASY_FINAL {
-      if (!m_enum_ptr) {
-        ec = generic_error::null_ptr;
-        return nullptr;
-      }
-      auto opt_val = m_enum_ptr->get_next(ec);
-      if (!opt_val)
-        return nullptr;
-
-      std::wstring value;
-
-      return internal_environment_factory::create_variable(std::wstring(opt_val->get_name()), std::move(value), m_target);
+      return nullptr;
+//       if (!m_enum_ptr) {
+//         ec = generic_error::null_ptr;
+//         return nullptr;
+//       }
+//       auto opt_val = m_enum_ptr->get_next(ec);
+//       if (!opt_val)
+//         return nullptr;
+// 
+//       std::wstring value;
+// 
+//       return internal_environment_factory::create_variable(std::wstring(opt_val->get_name()), std::move(value), m_target);
     }
 
   private:
     environment_variable_target m_target;
     scoped_reg_key m_key;
-    reg_value_enumerator m_enum_ptr;
+    //reg_value_enumerator m_enum_ptr;
   };
 
 
@@ -164,7 +167,7 @@ namespace windows
 
   }
 
-  environment_variable::environment_variable(const c_wstring& name, environment_variable_target target, error_code_ref ec)
+  environment_variable::environment_variable(const lite_wstring& name, environment_variable_target target, error_code_ref ec)
     : m_target(target)
     , m_name(name)
   {
@@ -186,7 +189,7 @@ namespace windows
       *this = environment_variable();
   }
 
-  environment_variable::environment_variable(const c_wstring& name, error_code_ref ec)
+  environment_variable::environment_variable(const lite_wstring& name, error_code_ref ec)
     : m_target(environment_variable_target::unknown)
   {
     *this = environment_variable(name, environment_variable_target::process, ec);
@@ -207,7 +210,7 @@ namespace windows
     return m_target;
   }
   
-  bool environment_variable::set_value(const c_wstring& value, error_code_ref ec)
+  bool environment_variable::set_value(const lite_wstring& value, error_code_ref ec)
   {
     environment_variable var = create(m_name, value, m_target, ec);
     if (!ec && var) {
@@ -222,7 +225,7 @@ namespace windows
     return m_name.empty();
   }
 
-  bool environment_variable::exists(const c_wstring& name, environment_variable_target target)
+  bool environment_variable::exists(const lite_wstring& name, environment_variable_target target)
   {
     error_code ec;
     environment_variable var(name, target, ec);
@@ -242,7 +245,7 @@ namespace windows
     return enum_variables(environment_variable_target::process, ec);
   }
 
-  environment_variable environment_variable::create(const c_wstring& name, const c_wstring& value, 
+  environment_variable environment_variable::create(const lite_wstring& name, const lite_wstring& value, 
     environment_variable_target target, error_code_ref ec)
   {
     if (!name || target == environment_variable_target::unknown) {
@@ -258,7 +261,7 @@ namespace windows
     }
     else {
       scoped_reg_key key = make_env_reg_key(target, reg_access::all, ec);
-      if (!key || ec)
+      if (ec)
         return nullptr;
 
       bool ok = false;
@@ -267,14 +270,14 @@ namespace windows
       else 
         ok = key.set_value(name, value, ec);
 
-      if (!ok || ec)
+      if (ec)
         return nullptr;
     }
 
     return internal_environment_factory::create_variable(std::wstring(name), std::wstring(value), target);
   }
 
-  environment_variable environment_variable::create(const c_wstring& name, const c_wstring& value, error_code_ref ec)
+  environment_variable environment_variable::create(const lite_wstring& name, const lite_wstring& value, error_code_ref ec)
   {
     return create(name, value, environment_variable_target::process, ec);
   }
