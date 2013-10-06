@@ -1,11 +1,11 @@
 /*!
- *  @file   easy/strings/string_conv.h
+ *  @file   easy/strings/conv.h
  *  @author Sergey Tararay
  *  @date   2013
  *
  */
-#ifndef EASY_STRINGS_STRING_CONV_H
-#define EASY_STRINGS_STRING_CONV_H
+#ifndef EASY_STRINGS_CONV_H
+#define EASY_STRINGS_CONV_H
 
 #include <easy/config.h>
 #include <easy/strings/lite_string.h>

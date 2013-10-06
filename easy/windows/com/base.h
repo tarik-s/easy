@@ -24,7 +24,6 @@ namespace easy
         ole        //!< OLE
       };
 
-
       //!
       class scoped_com_initializer
         : public easy::safe_bool<scoped_com_initializer>

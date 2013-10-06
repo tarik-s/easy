@@ -19,10 +19,7 @@ namespace easy {
 namespace windows {
 namespace api
 {
-  //////////////////////////////////////////////////////////////////////////
-  // environment functions
 
-  
 
   //////////////////////////////////////////////////////////////////////////
   // kernel handle functions
@@ -106,7 +103,7 @@ namespace api
   typedef DWORD process_id;
   typedef DWORD process_exit_code;
 
-  kernel_handle open_process(unsigned pid, error_code_ref ec = nullptr);
+  kernel_handle open_process(process_id pid, error_code_ref ec = nullptr);
   bool terminate_process(kernel_handle h, process_exit_code code, error_code_ref ec = nullptr);
   process_id get_process_id(kernel_handle h, error_code_ref ec = nullptr);
   process_exit_code get_process_exit_code(kernel_handle h, error_code_ref ec = nullptr);

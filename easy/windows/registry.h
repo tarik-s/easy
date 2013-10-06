@@ -11,6 +11,7 @@
 #include <easy/types.h>
 #include <easy/error_handling.h>
 #include <easy/strings.h>
+#include <easy/lite_buffer.h>
 #include <easy/range.h>
 #include <easy/object.h>
 #include <easy/flags.h>
@@ -180,11 +181,12 @@ namespace easy
       bool set_reg_value_uint64(reg_key_handle h, const lite_wstring& name, uint64 value, error_code_ref ec = nullptr);
       bool set_reg_value_string(reg_key_handle h, const lite_wstring& name, const lite_wstring& value, error_code_ref ec = nullptr);
       bool set_reg_value_exp_string(reg_key_handle h, const lite_wstring& name, const lite_wstring& value, error_code_ref ec = nullptr);
+      bool set_reg_value_multi_string(reg_key_handle h, const lite_wstring& name, const lite_buffer<wchar_t>& value, error_code_ref ec = nullptr);
       
       reg_value get_reg_value(reg_key_handle h, const lite_wstring& name, error_code_ref ec = nullptr);
 
       reg_item_enumerator enum_reg_sub_keys(reg_key_handle key, error_code_ref ec = nullptr);
-      reg_item_enumerator enum_reg_values(reg_key_handle key, error_code_ref ec = nullptr);
+      reg_item_enumerator enum_reg_value_names(reg_key_handle key, error_code_ref ec = nullptr);
     }
     
    
@@ -277,8 +279,8 @@ namespace easy
       }
 
       //!
-      reg_item_enumerator enum_values(error_code_ref ec = nullptr) const {
-        return detail::enum_reg_values(*this, ec);
+      reg_item_enumerator enum_value_names(error_code_ref ec = nullptr) const {
+        return detail::enum_reg_value_names(*this, ec);
       }
 
     protected:
@@ -296,6 +298,11 @@ namespace easy
       }
 
       template<class RegKey>
+      static object_type construct(const RegKey& k, const reg_open_params& params, error_code_ref ec) {
+        return construct(k, reg_path(), params, ec);
+      }
+
+      template<class RegKey>
       static object_type construct(const RegKey& k, error_code_ref ec) {
         return construct(k, reg_path(), nullptr, ec);
       }
@@ -308,8 +315,8 @@ namespace easy
     {
       reg_item_enumerator enum_reg_sub_keys(const scoped_reg_key::tracker& key, error_code_ref ec = nullptr);
       reg_item_enumerator enum_reg_sub_keys(const shared_reg_key::tracker& key, error_code_ref ec = nullptr);
-      reg_item_enumerator enum_reg_values(const scoped_reg_key::tracker& key, error_code_ref ec = nullptr);
-      reg_item_enumerator enum_reg_values(const shared_reg_key::tracker& key, error_code_ref ec = nullptr);
+      reg_item_enumerator enum_reg_value_names(const scoped_reg_key::tracker& key, error_code_ref ec = nullptr);
+      reg_item_enumerator enum_reg_value_names(const shared_reg_key::tracker& key, error_code_ref ec = nullptr);
     }
 
   }

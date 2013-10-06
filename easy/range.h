@@ -116,7 +116,7 @@ namespace easy
       friend class boost::iterator_core_access;
 
       void increment() {
-        EASY_TEST_BOOL(m_pimpl && m_op_value);
+        EASY_ASSERT(m_pimpl && m_op_value);
         error_code ec;
         m_op_value = m_pimpl->get_next(ec);
         EASY_ASSERT(!ec);

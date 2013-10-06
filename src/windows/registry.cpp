@@ -3,8 +3,11 @@
 #include <easy/windows/error.h>
 #include <easy/windows/dynamic_library.h>
 
-#include <easy/stlex/make_unique.h>
-#include <easy/strings/string_conv.h>
+#include <easy/stlex/stlex.h>
+
+#include <easy/strings/conv.h>
+
+#include <easy/lite_buffer.h>
 
 #include <vector>
 #include <array>
@@ -78,7 +81,7 @@ namespace windows
     };
 
     template<class RegKeyTracker>
-    class reg_value_enumerator_impl
+    class reg_value_name_enumerator_impl
       : public enumerator<std::wstring>
     {
     public:    
@@ -86,7 +89,7 @@ namespace windows
 
       typedef RegKeyTracker tracker_type;
 
-      reg_value_enumerator_impl(const tracker_type& key, error_code_ref ec)
+      reg_value_name_enumerator_impl(const tracker_type& key, error_code_ref ec)
         : m_key(key)
         , m_next_index(-1)
       {
@@ -309,6 +312,23 @@ namespace windows
           ec = generic_error::null_ptr;
           return false;
         }
+      case reg_value_kind::multi_string:
+        {
+          const wstring_list* p = boost::get<wstring_list>(&value);
+          if (p) {
+            std::vector<wchar_t> buf;
+            for (const std::wstring& s: *p) {
+//               if (s.empty())
+//                 continue;
+              buf.insert(buf.end(), s.begin(), s.end());
+              buf << L'\0';
+            }
+            
+            buf << L'\0';
+            return set_reg_value_multi_string(h, name, lite_buffer<wchar_t>(buf.data(), buf.size()), ec);
+          }
+          return false;
+        }
       case reg_value_kind::binary:
         {
           const byte_vector* p = boost::get<byte_vector>(&value);
@@ -354,6 +374,12 @@ namespace windows
     bool set_reg_value_exp_string(reg_key_handle h, const lite_wstring& name, const lite_wstring& value, error_code_ref ec)
     {
       return set_reg_value(h, name, reg_value_kind::expand_string, (const byte*)value.c_str(), value.size() * sizeof(lite_wstring::value_type), ec);
+    }
+
+
+    bool set_reg_value_multi_string(reg_key_handle h, const lite_wstring& name, const lite_buffer<wchar_t>& value, error_code_ref ec)
+    {
+      return set_reg_value(h, name, reg_value_kind::multi_string, (const byte*)value.data(), value.size() * sizeof(lite_buffer<wchar_t>::value_type), ec);
     }
 
     reg_value get_reg_value(reg_key_handle h, const lite_wstring& name, error_code_ref ec)
@@ -433,8 +459,19 @@ namespace windows
         }
       case easy::windows::reg_value_kind::multi_string:
         {
-          EASY_ASSERT(!"Is not implemented now");
-          break;
+          EASY_ASSERT(buf.size() % 2 == 0);
+          lite_buffer<wchar_t> char_buf(buf.data(), buf.size());
+          if (char_buf.empty() || (char_buf.size() == 1 && !char_buf[0]))
+            return wstring_list();
+
+          wstring_list res;
+          for (auto it = char_buf.cbegin(); it != char_buf.end(); /*blank*/) {
+            lite_wstring s = it;
+            it = it + s.length() + 1;
+            if (it != char_buf.end()) // do not include the last element
+              res << s;
+          }
+          return res;
         }
       case easy::windows::reg_value_kind::binary:
         {
@@ -454,16 +491,31 @@ namespace windows
       return !ec;
     }
 
-    reg_item_enumerator enum_reg_sub_keys(reg_key_handle key, error_code_ref ec)
+    class raw_reg_key_handle_tracker
     {
-      EASY_ASSERT(!"Not implemented");
-      return nullptr;
+    public:
+      raw_reg_key_handle_tracker(reg_key_handle key)
+        : m_key(key) {
+      }
+      reg_key_handle get() const {
+        return m_key;
+      }
+    private:
+      reg_key_handle m_key;
+    };
+
+    reg_item_enumerator enum_reg_sub_keys(reg_key_handle h, error_code_ref ec)
+    {
+      if (!check_reg_key_handle(h, ec))
+        return nullptr;
+      return std::make_unique<reg_key_enumerator_impl<raw_reg_key_handle_tracker>>(h, ec);
     }
 
-    reg_item_enumerator enum_reg_values(reg_key_handle key, error_code_ref ec)
+    reg_item_enumerator enum_reg_value_names(reg_key_handle h, error_code_ref ec)
     {
-      EASY_ASSERT(!"Not implemented");
-      return nullptr;
+      if (!check_reg_key_handle(h, ec))
+        return nullptr;
+      return std::make_unique<reg_value_name_enumerator_impl<raw_reg_key_handle_tracker>>(h, ec);
     }
 
     std::wstring get_reg_key_name(reg_key_handle h, error_code_ref ec)
@@ -511,7 +563,7 @@ namespace windows
       ec = make_win_error(res);
       return std::wstring();
     }
-  }
+}
 
   
   namespace detail
@@ -526,14 +578,14 @@ namespace windows
       return std::make_unique<reg_key_enumerator_impl<shared_reg_key::tracker>>(key, ec);
     }
 
-    reg_item_enumerator enum_reg_values(const scoped_reg_key::tracker& key, error_code_ref ec)
+    reg_item_enumerator enum_reg_value_names(const scoped_reg_key::tracker& key, error_code_ref ec)
     {
-      return std::make_unique<reg_value_enumerator_impl<scoped_reg_key::tracker>>(key, ec);
+      return std::make_unique<reg_value_name_enumerator_impl<scoped_reg_key::tracker>>(key, ec);
     }
 
-    reg_item_enumerator enum_reg_values(const shared_reg_key::tracker& key, error_code_ref ec)
+    reg_item_enumerator enum_reg_value_names(const shared_reg_key::tracker& key, error_code_ref ec)
     {
-      return std::make_unique<reg_value_enumerator_impl<shared_reg_key::tracker>>(key, ec);
+      return std::make_unique<reg_value_name_enumerator_impl<shared_reg_key::tracker>>(key, ec);
     }
 
   }

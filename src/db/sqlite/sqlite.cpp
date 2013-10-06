@@ -1,6 +1,5 @@
 #include <easy/db/sqlite/sqlite.h>
 
-#include <easy/strings/string_conv.h>
 #include <easy/stlex/make_unique.h>
 
 namespace easy { namespace db { namespace sqlite 

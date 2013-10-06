@@ -8,7 +8,7 @@
 
 
 #include <easy/strings/lite_string.h>
-#include <easy/strings/string_conv.h>
+#include <easy/strings/conv.h>
 
 namespace easy
 {

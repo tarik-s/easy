@@ -112,7 +112,7 @@ namespace windows
       , m_key(make_env_reg_key(target, reg_access::read, ec))
     {      
       if (!ec)
-        m_enum = m_key.enum_values(ec);
+        m_enum = m_key.enum_value_names(ec);
     }
 
     result_type get_next(error_code_ref ec) EASY_FINAL 

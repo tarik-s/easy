@@ -16,6 +16,9 @@
     <ClCompile Include="..\..\..\src\strings\string_conv.cpp" />
     <ClCompile Include="..\..\..\src\windows\api.cpp" />
     <ClCompile Include="..\..\..\src\windows\com\base.cpp" />
+    <ClCompile Include="..\..\..\src\windows\com\bstr.cpp" />
+    <ClCompile Include="..\..\..\src\windows\com\safe_array.cpp" />
+    <ClCompile Include="..\..\..\src\windows\com\variant.cpp" />
     <ClCompile Include="..\..\..\src\windows\dynamic_library.cpp" />
     <ClCompile Include="..\..\..\src\windows\environment.cpp" />
     <ClCompile Include="..\..\..\src\windows\synchronization.cpp" />
@@ -35,7 +38,9 @@
     <ClInclude Include="..\..\..\easy\easy.h" />
     <ClInclude Include="..\..\..\easy\error_handling.h" />
     <ClInclude Include="..\..\..\easy\flags.h" />
+    <ClInclude Include="..\..\..\easy\lite_buffer.h" />
     <ClInclude Include="..\..\..\easy\object.h" />
+    <ClInclude Include="..\..\..\easy\os.h" />
     <ClInclude Include="..\..\..\easy\range.h" />
     <ClInclude Include="..\..\..\easy\safe_bool.h" />
     <ClInclude Include="..\..\..\easy\safe_call.h" />
@@ -46,13 +51,18 @@
     <ClInclude Include="..\..\..\easy\streams.h" />
     <ClInclude Include="..\..\..\easy\strings.h" />
     <ClInclude Include="..\..\..\easy\strings\lite_string.h" />
-    <ClInclude Include="..\..\..\easy\strings\string_conv.h" />
+    <ClInclude Include="..\..\..\easy\strings\conv.h" />
     <ClInclude Include="..\..\..\easy\types.h" />
     <ClInclude Include="..\..\..\easy\type_traits.h" />
     <ClInclude Include="..\..\..\easy\windows\api.h" />
     <ClInclude Include="..\..\..\easy\windows\com\base.h" />
     <ClInclude Include="..\..\..\easy\windows\com\com.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\bstr.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\ptr.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\safe_array.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\variant.h" />
     <ClInclude Include="..\..\..\easy\windows\com\config.h" />
+    <ClInclude Include="..\..\..\easy\windows\com\variant_type.h" />
     <ClInclude Include="..\..\..\easy\windows\config.h" />
     <ClInclude Include="..\..\..\easy\windows\dynamic_library.h" />
     <ClInclude Include="..\..\..\easy\windows\environment.h" />
@@ -60,6 +70,7 @@
     <ClInclude Include="..\..\..\easy\windows\handle.h" />
     <ClInclude Include="..\..\..\easy\windows\registry.h" />
     <ClInclude Include="..\..\..\easy\windows\synchronization.h" />
+    <ClInclude Include="..\..\..\easy\windows\system.h" />
     <ClInclude Include="..\..\..\easy\windows\windows.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

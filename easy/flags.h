@@ -33,10 +33,11 @@ namespace easy
   };
 
   //! enum_group
-  template<class E1, class E2, class E3 = void, class E4 = void, class E5 = void>
+  template<class E1, class E2 = void, class E3 = void, class E4 = void, class E5 = void>
   class enum_group
     : public enum_group<E2, E3, E4, E5>
   {
+    EASY_STATIC_ASSERT(std::is_enum<E1>::value, "Only enumerations can be paramerers of enum_group");
   public:
     typedef enum_group<E2, E3, E4, E5> base;
 
@@ -48,7 +49,7 @@ namespace easy
     enum_group(nullptr_t) { }
 
     template<class A>
-    enum_group(A a) {
+    enum_group(A a, typename boost::enable_if<std::is_enum<A>>::type* = nullptr) {
       set(a);
     }
 

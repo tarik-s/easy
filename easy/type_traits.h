@@ -7,7 +7,9 @@
 #define EASY_TYPE_TRAITS_H_INCLUDED
 
 #include <easy/config.h>
+
 #include <type_traits>
+#include <boost/type_traits.hpp>
 
 #include <string>
 
@@ -50,6 +52,16 @@ namespace easy
   template<>
   struct underlying_char_type<std::wstring> { typedef wchar_t type; };
 #endif
+
+  template<class From, class To>
+  struct is_convertible_but_not_same
+    : boost::mpl::and_<
+        boost::is_convertible<From, To>,
+        boost::mpl::not_<boost::is_same<From, To>>
+    >
+  {
+    
+  };
 
 }
 

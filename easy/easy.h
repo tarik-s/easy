@@ -21,7 +21,8 @@
 #include <easy/scope.h>
 #include <easy/range.h>
 #include <easy/object.h>
-
+#include <easy/lite_buffer.h>
+#include <easy/os.h>
 
 #include <easy/db/db.h>
 

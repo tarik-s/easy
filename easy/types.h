@@ -13,23 +13,30 @@
 
 namespace easy
 {
-  typedef char int8;
-  typedef unsigned char uint8;
-  typedef uint8 byte;
+  typedef char             int8;
+  typedef unsigned char    uint8;
+  typedef uint8            byte;
 
-  typedef short int16;
-  typedef unsigned short uint16;
+  typedef short            int16;
+  typedef unsigned short   uint16;
 
-  typedef unsigned int uint;
-  typedef int int32;  
-  typedef uint uint32;
+  typedef unsigned int     uint;
+  typedef int              int32;
+  typedef uint             uint32;
 
-  typedef __int64 int64;
+  typedef __int64          int64;
   typedef unsigned __int64 uint64;
 
-  typedef std::vector<byte> byte_vector;
+#ifdef EASY_WIN64
+  typedef int64            int_ptr;
+  typedef uint64           uint_ptr;
+#else
+  typedef int32            int_ptr;
+  typedef uint32           uint_ptr;
+#endif
 
-  typedef std::vector<std::string> string_list;
+  typedef std::vector<byte>         byte_vector;
+  typedef std::vector<std::string>  string_list;
   typedef std::vector<std::wstring> wstring_list;
 
 }

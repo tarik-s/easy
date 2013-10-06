@@ -103,7 +103,7 @@ namespace easy
     }
 
     const_iterator cbegin() const EASY_NOEXCEPT {
-      begin();
+      return begin();
     }
 
     const_iterator cend() const EASY_NOEXCEPT {
@@ -151,6 +151,17 @@ namespace easy
       return empty();
     }
 
+    int compare(const this_type& r) const
+    {
+      if (!*this && !r)
+        return 0;
+
+      if (length() != r.length())
+        return length() > r.length() ? 1 : -1;
+
+      return std::char_traits<char_type>::compare(cbegin(), r.cend(), length());
+    }
+
   private:
     basic_lite_string& operator = (basic_lite_string && r) EASY_NOEXCEPT {
       m_str = r.m_str;
@@ -178,7 +189,171 @@ namespace easy
   private:
     std::unique_ptr<string_type> m_holder_ptr; // Must be at the first position
     sized_str m_str;
-  }; 
+  };
+
+
+  //!
+  template<class Char, class Traits>
+  std::basic_ostream<Char, Traits>& operator << (std::basic_ostream<Char, Traits>& os, const basic_lite_string<Char>& s)
+  {
+    if (s)
+      os.write(s.data(), s.length());
+    return os;
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+
+  //!
+  template<class Char>
+  bool operator == (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) == 0;
+  }
+
+  template<class Char>
+  bool operator < (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) != 0;
+  }
+
+  template<class Char>
+  bool operator <= (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) <= 0;
+  }
+
+  template<class Char>
+  bool operator != (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) != 0;
+  }
+
+  template<class Char>
+  bool operator > (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) > 0;
+  }
+
+  template<class Char>
+  bool operator >= (const basic_lite_string<Char>& s1, const basic_lite_string<Char>& s2)
+  {
+    return s1.compare(s2) >= 0;
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+  >::type operator == (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) == 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator == (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 == s1;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator != (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) != 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator != (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 != s1;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator < (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) < 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator < (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 > s1;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator <= (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) <= 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator <= (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 >= s1;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator > (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) > 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator > (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 < s1;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator >= (const basic_lite_string<Char>& s1, const Value& s2)
+  {
+    return s1.compare(s2) >= 0;
+  }
+
+  template<class Char, class Value>
+  typename boost::enable_if<
+    is_convertible_but_not_same<Value, basic_lite_string<Char>>, 
+    bool
+    >::type operator >= (const Value& s1, const basic_lite_string<Char>& s2)
+  {
+    return s2 <= s1;
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+
+
+
 
   typedef basic_lite_string<char>    lite_string;
 
@@ -186,6 +361,116 @@ namespace easy
   typedef basic_lite_string<wchar_t> lite_wstring;
 #endif
   
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator == (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) == 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator == (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) == 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator != (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) != 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator != (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) != 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator < (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) < 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator < (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) < 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator <= (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) <= 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator <= (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) <= 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator > (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) > 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator > (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) > 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator >= (const Value& s1, const Char* s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) >= 0;
+}
+
+template<class Value, class Char>
+typename boost::enable_if<
+  easy::is_convertible_but_not_same<Value, easy::basic_lite_string<Char>>,
+  bool
+  >::type operator >= (const Char* s1, const Value& s2)
+{
+  return easy::basic_lite_string<Char>(s1).compare(s2) >= 0;
 }
 
 #endif

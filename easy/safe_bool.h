@@ -92,17 +92,26 @@ namespace easy
    * @brief Disables comparison between safe_bool<T> and safe_bool<U>
    */
   template <class T, class U> 
-  bool operator == (const safe_bool<T>& lhs, const safe_bool<U>& rhs) {
+  bool operator == (const safe_bool<T>& lhs, const safe_bool<U>& rhs) 
+  {
     EASY_STATIC_ASSERT(0, "safe_bool is not comparable to other safe_bool");
     return false;
   }
 
   template <class T, class U> 
-  bool operator != (const safe_bool<T>& lhs, const safe_bool<U>& rhs) {
+  bool operator != (const safe_bool<T>& lhs, const safe_bool<U>& rhs) 
+  {
     return !(lhs == rhs);
   }
 
   /*! @} */
+
+  template<class Stream, class T>
+  Stream& operator << (Stream& s, const safe_bool<T>& b)
+  {
+    EASY_STATIC_ASSERT(0, "safe_bool cannot be written to any stream");
+    return s;
+  }
 }
 
 #endif

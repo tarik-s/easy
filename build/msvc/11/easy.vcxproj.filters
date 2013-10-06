@@ -77,6 +77,15 @@
     <ClCompile Include="..\..\..\src\windows\com\base.cpp">
       <Filter>src\windows\com</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\com\bstr.cpp">
+      <Filter>src\windows\com</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\com\variant.cpp">
+      <Filter>src\windows\com</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\windows\com\safe_array.cpp">
+      <Filter>src\windows\com</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\easy\config.h">
@@ -96,9 +105,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\easy\stlex\nullptr_t.h">
       <Filter>easy\stlex</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\easy\strings\string_conv.h">
-      <Filter>easy\strings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\db\config.h">
       <Filter>easy\db</Filter>
@@ -194,6 +200,33 @@
       <Filter>easy\windows\com</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\easy\windows\com\base.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\strings\conv.h">
+      <Filter>easy\strings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\lite_buffer.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\system.h">
+      <Filter>easy\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\os.h">
+      <Filter>easy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\bstr.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\ptr.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\variant.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\safe_array.h">
+      <Filter>easy\windows\com</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\easy\windows\com\variant_type.h">
       <Filter>easy\windows\com</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,7 @@
 #include <easy/windows/environment.h>
 #include <easy/windows/registry.h>
 
+#include <easy/windows/com/com.h>
 
 #endif
 
